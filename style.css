@@ -1,0 +1,28 @@
+
+body {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+header {
+	border-bottom: 1px solid black;
+	background: #ffd8d8;
+}
+
+section {
+	flex-grow: 1;
+}
+
+footer {
+	border-top: 1px solid black;
+	background: #ffd8d8;
+}
+
+header,
+section,
+footer {
+	padding: 16px;
+	max-width: 900px;
+}
