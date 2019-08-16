@@ -1,7 +1,7 @@
 function gen() {
 	const n = () => Math.floor(Math.random()*10);
 
-	const num1 = n(),
+	const num1 = (Math.floor(Math.random()*9) + 1), // special case; cannot be 0
 		num2 = n(),
 		num3 = n(),
 		num4 = n(),
