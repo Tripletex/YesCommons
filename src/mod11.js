@@ -1,18 +1,58 @@
+const MOD11weights = [2, 3, 4, 5, 6, 7, 2, 3, 4, 5];
+
 /**
- * @param {int} n how many digits to generate
+ *
+ * @param {string} accountNumber A string of the account number value
+ * @returns {string} The account number reversed and removed of non-numerical chars
  */
-function gen(n) {
-  return Array.from({ length: n }, () => Math.floor(Math.random() * 10));
+function getReversedAccountNumber(accountNumber) {
+  const num = accountNumber
+    .replace(/\D+/g, '')
+    .split('')
+    .reverse()
+    .join('');
+
+  return num;
 }
 
 /**
  *
- * @param {int[]} weightedDigits
+ * @param {string} accountNumber A string of the account number value
+ * @returns {number} Function call to mod11 --> integer
  */
-function mod11(weightedDigits) {
-  let controlDigit =
-    11 - (weightedDigits.reduce((acc, val) => acc + val, 0) % 11);
-  return controlDigit === 11 ? 0 : controlDigit;
+export function getCheckDigit(accountNumber) {
+  let reversedAccountNumber = getReversedAccountNumber(accountNumber);
+  return mod11(reversedAccountNumber);
+}
+
+/**
+ *
+ * @param {string} accountNumber A string of the account number value
+ * @returns {number} The integer from the modulo 11 calculation
+ */
+function mod11(accountNumber) {
+  let tempArr = accountNumber.split('');
+
+  if (tempArr.length === 11) {
+    tempArr.shift();
+  }
+
+  const sum = applyWeights(tempArr);
+
+  return sum % 11 == 0 ? 0 : 11 - (sum % 11);
+}
+
+/**
+ *
+ * @param {string[]} accountNumberArray
+ * @returns {number} The weighted numbers used to calculate the modulo
+ */
+function applyWeights(accountNumberArray) {
+  return accountNumberArray
+    .map(num => parseInt(num))
+
+    .map((num, index) => num * MOD11weights[index])
+    .reduce((acc, val) => acc + val);
 }
 
 /**
@@ -37,62 +77,3 @@ function getDefaultWeights(n) {
     .reverse() // => [n-1, .., 1, 0]
     .map(val => weightOf(val)); // => [w(n-1), .., 3, 2]
 }
-
-/**
- *
- * @param {int[]} digits
- * @param {int[]} weights
- */
-function applyWeights(digits, weights) {
-  return digits.map((val, idx) => val * weights[idx]);
-}
-
-/**
- *
- *
- * @param {int[]} digits all the digits including the control digit
- * @param {int[]} weights (optional)
- */
-function validate(digits, weights) {
-  let givenControl = digits.pop();
-
-  if (weights == undefined) {
-    weights = getDefaultWeights(digits.length);
-  }
-
-  return givenControl === mod11(applyWeights(digits, weights));
-}
-
-/**
- *
- * @param {int} length number of digits excluding the control digit
- * @param {int[]} weights (optional)
- */
-function mod11_generate(length, weights) {
-  if (weights == undefined) {
-    weights = getDefaultWeights(length);
-  }
-
-  let digits = null;
-  let controlDigit = null;
-  do {
-    digits = gen(length);
-    controlDigit = mod11(applyWeights(digits, weights));
-  } while (controlDigit === 10);
-
-  return digits.reduce((acc, val) => acc + val, '') + controlDigit;
-}
-/*
-/**
- *
- * @param {string} number
- * @param {int[]} weights (optional)
- */
-function mod11_validate(number, weights) {
-  let digits = number.split('').map(val => Number(val));
-  return validate(digits, weights);
-}
-
-const see = mod11_generate(11);
-
-console.log(see.length);
