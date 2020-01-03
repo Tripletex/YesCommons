@@ -17,6 +17,7 @@ in the context of business and accounting.
 This project is under development and there are many tools to add. 
 Pull requests are welcomed!
 
-Currently, the project provides tools to generate:
-- Organisasjonsnummer
-- Bankkontonummer
+Currently, the project provides tools to:
+- Generate "Organisasjonsnummer"
+- Generate "Bankkontonummer"
+- Look up "Kommunenummer"
