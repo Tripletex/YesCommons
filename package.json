@@ -15,6 +15,7 @@
   "author": "Tripletex AS",
   "license": "MIT",
   "devDependencies": {
+    "request": "^2.88.0",
     "webpack": "^4.34.0",
     "webpack-cli": "^3.3.4",
     "webpack-dev-server": "^3.7.1"
