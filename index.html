@@ -25,9 +25,10 @@
 	<button class="js-gen-orgnr">Generer nytt nummer</button>
 
 	<p>
-		Husk at disse kun kan brukes for test-formål, numrene er tilfeldig generert og representerer ikke noen faktisk selskap.
-		Når man skal teste regnskapssystemer og lignende, må man ofte ty til "gyldige" organisasjonsnummer.
-		(Bla bla…) 😴
+		Genererte organisasjonsnummer er helt tilfeldige tall som tilfredsstiller formelle vilkår
+		til hvordan organisasjonsnumre skal utformes. De kan tilhøre faktiske eksisterende selskap,
+		men de kan også være ubrukte. Behovet for å generere slike numre er, blant annet, for å ha
+		som test-data når man videreutvikler regnskapssystemer.
 	</p>
 </section>
 
@@ -38,6 +39,13 @@
 	</p>
 
 	<button class="js-gen-kontonr">Generer</button>
+
+	<p>
+		Genererte bankkontonummer er helt tilfeldige tall som tilfredsstiller formelle vilkår
+		til hvordan bankkontonumre skal utformes. De kan tilhøre faktiske eksisterende kontoer,
+		men de kan også være ubrukte. Behovet for å generere slike numre er, blant annet, for å ha
+		som test-data når man videreutvikler regnskapssystemer.
+	</p>
 </section>
 
 
@@ -45,6 +53,14 @@
 	<h2>Oppslag postnummer</h2>
 	<input placeholder="Postnummer" type="number" name="postnummer">
 	<input placeholder="Kommune" type="text" name="kommune" readonly>
+
+	<p>
+		Disse oppslagene er basert på data-kildene hos
+		<a href="https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer">bring.no</a>
+		og blir ikke automatisk oppdatert. Sist oppdatering var 1.1.2020. Du kan
+		<a href="https://github.com/Tripletex/YesCommons">opprette en sak eller sende en pull</a>
+		request hvis dataene er foreldet.
+	</p>
 </section>
 
 <footer>

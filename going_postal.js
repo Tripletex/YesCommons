@@ -4,6 +4,13 @@ const request = require('request')
 const fs = require('fs')
 
 /**
+ * |********************************************************************************|
+ * * USED TO GENERATE THE MODULE postal.js! THIS IS DONE MANUALLY, AND RESULT IS    *
+ * * COMMITTED TO THE REPO! Run `node going_postal.js` from the root folder of this *
+ * * project to generate a new file. URL might need to be updated if there are any. *
+ * * changes to the origin csv file.                                                *
+ * |********************************************************************************|
+ *
  * This takes as input a tab separated file with postal number in first column
  * and postal place as second column, and outputs (to standard out) a javascript
  * file containing a function which takes a postal number as argument and returns
@@ -20,6 +27,7 @@ const fs = require('fs')
  *
  *  return ({1305:"HASLUM",1306:"SANDVIKA",1307:"FORNEBU", ...})[pn];
  * }
+ *
  */
 
 
