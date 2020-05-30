@@ -20,4 +20,5 @@ Pull requests are welcomed!
 Currently, the project provides tools to:
 - Generate "Organisasjonsnummer"
 - Generate "Bankkontonummer"
+- Validate "Bankkontonummer"
 - "Postnummer -> kommune" look up
