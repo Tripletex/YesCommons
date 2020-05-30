@@ -6,8 +6,6 @@ function gen(n) {
 }
 
 /**
- * NOTE: caller of this function must handle the case where this function returns 10.
- *       typically 10 should be '-' when used as control digit.
  * @param {int[]} digits
  * @param {int[]} weights (optional) 
  */
@@ -44,8 +42,8 @@ function getDefaultWeights(n) {
 
     return Array
         .from({length: n}, (_, idx) => idx) // => [0, 1, .., n-1]
-        .reverse()                            // => [n-1, .., 1, 0]
-        .map(val => weightOf(val));           // => [w(n-1), .., 3, 2]
+        .reverse()                          // => [n-1, .., 1, 0]
+        .map(val => weightOf(val));         // => [w(n-1), .., 3, 2]
 }
 
 /**
