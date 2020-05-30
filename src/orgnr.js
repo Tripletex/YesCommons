@@ -7,7 +7,6 @@ export default function orgnr() {
 	const controlCipher = orgNummer[orgNummer.length - 1];
 
 	if (controlCipher === '-' || firstNumber === 0) {
-		console.log('invalid orgnr')
 		return orgnr()
 	}
 	return orgNummer
