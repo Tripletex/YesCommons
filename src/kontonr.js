@@ -4,7 +4,12 @@ import { mod11_generate, mod11_validate } from './mod11';
  * @returns {string} The calculated accountNumber as a string
  */
 export default function generateAccountNumber() {
-  return mod11_generate(10)
+  const accountNumber = mod11_generate(10);
+  if (accountNumber[accountNumber.length-1] === '-') {
+    console.log('invalid account number', accountNumber)
+    return generateAccountNumber();
+  }
+  return accountNumber;
 }
 
 /**

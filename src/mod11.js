@@ -84,10 +84,6 @@ export function mod11_generate(length, weights = getDefaultWeights(length)) {
     const digits = gen(length);
     const controlDigit = mod11(digits, weights);
 
-    if (controlDigit === '-') {
-        return mod11_generate(length, weights)
-    }
-
     return digits.reduce((acc, val) => acc + val, "") + controlDigit;
 }
 
