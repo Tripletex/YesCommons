@@ -17,7 +17,7 @@ function gen() {
 	if (contr === 11) contr = 0;
 
 	if (contr === 10)
-       return null;
+    return null;
 	else
 		return "" + num1 + num2 + num3 + num4 + num5 + num6 + num7 + num8 + contr;
 }

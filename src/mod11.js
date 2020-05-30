@@ -8,12 +8,20 @@ function gen(n) {
 /**
  * NOTE: caller of this function must handle the case where this function returns 10.
  *       typically 10 should be '-' when used as control digit.
- * @param {int[]} weightedDigits 
+ * @param {int[]} digits
+ * @param {int[]} weights (optional) 
  */
-function mod11(weightedDigits) {
-    let controlDigit = 11 - (weightedDigits.reduce((acc, val) => acc + val, 0) % 11);
-    if (controlDigit === 11)
+export function mod11(digits, weights = getDefaultWeights(digits.length)) {
+    const weightedDigits = applyWeights(digits, weights)
+    const controlDigit = 11 - (weightedDigits.reduce((acc, val) => acc + val, 0) % 11);
+    if (controlDigit === 11) {
         return 0;
+    }
+    
+    if (controlDigit === 10) {
+        return '-';
+    }
+
     return controlDigit;
 }
 
@@ -35,9 +43,9 @@ function getDefaultWeights(n) {
     const weightOf = idx => ((idx + 6) % 6) + 2;
 
     return Array
-            .from({length: n}, (val, idx) => idx) // => [0, 1, .., n-1]
-            .reverse()                            // => [n-1, .., 1, 0]
-            .map(val => weightOf(val));           // => [w(n-1), .., 3, 2]
+        .from({length: n}, (_, idx) => idx) // => [0, 1, .., n-1]
+        .reverse()                            // => [n-1, .., 1, 0]
+        .map(val => weightOf(val));           // => [w(n-1), .., 3, 2]
 }
 
 /**
@@ -50,19 +58,17 @@ function applyWeights(digits, weights) {
 }
 
 /**
- * NOTE: does not handle the case where controldigit == 10.
  * 
  * @param {int[]} digits all the digits including the control digit
  * @param {int[]} weights (optional)
  */
 function validate(digits, weights) {
     let givenControl = digits.pop();
-    
-    if (weights == undefined) {
+    if (!weights) {
         weights = getDefaultWeights(digits.length);
     }
 
-    return givenControl === mod11(applyWeights(digits, weights));
+    return givenControl === mod11(digits, weights);
 }
 
 /**
@@ -70,17 +76,17 @@ function validate(digits, weights) {
  * @param {int} length number of digits excluding the control digit
  * @param {int[]} weights (optional)
  */
-export default function mod11_generate(length, weights) {
-    if (weights == undefined) {
-        weights = getDefaultWeights(length);
+export function mod11_generate(length, weights = getDefaultWeights(length)) {
+    if (!weights.length || !Array.isArray(weights)) {
+        return;
     }
 
-    let digits = null;
-    let controlDigit = null;
-    do {
-        digits = gen(length);
-        controlDigit = mod11(applyWeights(digits, weights));
-    } while (controlDigit === 10);
+    const digits = gen(length);
+    const controlDigit = mod11(digits, weights);
+
+    if (controlDigit === '-') {
+        return mod11_generate(length, weights)
+    }
 
     return digits.reduce((acc, val) => acc + val, "") + controlDigit;
 }
@@ -90,7 +96,7 @@ export default function mod11_generate(length, weights) {
  * @param {string} number 
  * @param {int[]} weights (optional)
  */
-export default function mod11_validate(number, weights) {
-    let digits = number.split('').map(val => Number(val));
+export function mod11_validate(number, weights) {
+    let digits = number.split('').map(val => parseInt(val));
     return validate(digits, weights);
 }
