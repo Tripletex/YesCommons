@@ -6,7 +6,6 @@ import { mod11_generate, mod11_validate } from './mod11';
 export default function generateAccountNumber() {
   const accountNumber = mod11_generate(10);
   if (accountNumber[accountNumber.length-1] === '-') {
-    console.log('invalid account number', accountNumber)
     return generateAccountNumber();
   }
   return accountNumber;
