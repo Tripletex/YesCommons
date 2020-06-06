@@ -33,8 +33,10 @@ const fs = require('fs')
 
 fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/attachment/download/7f0186f6-cf90-4657-8b5b-70707abeb789:676b821de9cff02aaa7a009daf0af8a2a346a1bc/Postnummerregister-ansi.txt')
 	.then(response => {
-	if(!response.ok) throw 'Problems during download of CSV file for postal codes, update URL?'
-	return response.blob()
+		if(!response.ok) {
+			throw new Error('Problems during download of CSV file for postal codes, update URL?')
+		} 
+		return response.blob()
 	})
 	.then(fileBlob => {
 		console.log('Successfully created retrieved file from Bring!')
@@ -53,12 +55,12 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 	
 		let lastPlace
 	
-		/* I postfix the key name (place) with an index number. This is because the same
+		/* 
+		  * I postfix the key name (place) with an index number. This is because the same
 			* name doesn't have to occur sequentially in the list. When creating the if
 			* sentences, MIN and MAX numbers should be in a sequence, without other places
 			* in between ....
-			*
-			*/
+		*/
 		let index = 0
 	
 		fileData.split('\n').forEach(line => {
@@ -102,13 +104,13 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 		 *
 		 * For instance:
 		 * {0001: "OSLO", 0010: "OSLO", 0015: "OSLO", ....
-			 *
-			 * This would take (8 + 4) * 639 = 7668 to represent Oslo*.
-			 *
-			 * (* Not really, because I convert numbers to integers. The number of characters
-			 * would be somewhat less for Oslo, but the numbers are true for all other postal
-			 * places.)
-			 *
+		 *
+		 * This would take (8 + 4) * 639 = 7668 to represent Oslo*.
+		 * (* Not really, because I convert numbers to integers. The number of characters
+		 * would be somewhat less for Oslo, but the numbers are true for all other postal
+		 * places.)
+		 *
+		 *
 		 * @param C how many postal numbers this place has in this sequence
 		 * @param L lenght of character name of postal place
 		 */
