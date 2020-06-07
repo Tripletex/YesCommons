@@ -1,7 +1,23 @@
 import orgnr from './orgnr.js';
 import generateAccountNumber, { validateAccountNumber } from './kontonr.js';
 import postnummer from './postal.js'
+import { generateKidMod10 } from './kid'
 
+function newKidNr() {
+	const RANDOM_KID_NUMBER_LENGTH = 3 + Math.floor(Math.random() * 22)
+	const kidNumberSpan = document.querySelector('#kidNumberBase')
+	const kidNumberLengthSpan = document.querySelector('#kidNumberLength')
+	const kidNumberLength = kidNumberLengthSpan.value.trim()
+	const kidNumberBase = kidNumberSpan.value.trim()
+	const kidNumber = !kidNumberBase && !kidNumberLength 
+	? generateKidMod10(RANDOM_KID_NUMBER_LENGTH) 
+	: !kidNumberBase && kidNumberLength 
+	? generateKidMod10(kidNumberLength)
+	: generateKidMod10(kidNumberLength, kidNumberBase)
+	document.querySelector('.js-kid-nummer').innerText = kidNumber
+	kidNumberSpan.value = ''
+	kidNumberLengthSpan.value = ''
+}
 
 function newOrgNr() {
 	const orgSpan = document.querySelector('.js-orgnr');
@@ -45,6 +61,7 @@ newOrgNr();
 newKontoNr();
 
 document.querySelector('.js-gen-orgnr').addEventListener('click', newOrgNr);
+document.querySelector('.js-gen-kid').addEventListener('click', newKidNr);
 document.querySelector('.js-gen-kontonr').addEventListener('click', newKontoNr);
 document.querySelector('.js-val-kontonr').addEventListener('click', validateKontoNr);
 document.querySelector('[name="postnummer"]').addEventListener('input', queryPostal);

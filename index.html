@@ -49,6 +49,29 @@
 </section>
 
 <section>
+	<h2>Generer KID-nummer</h2>
+	<p>
+		<label for="kidnummer">Fakturanummer/Kundenummer</label>
+		<input type="text" name="kidnummer" id="kidNumberBase" />
+	</p>
+	<p>
+		<label for="kidlengde">Lengde på KID-nummmer</label>
+		<input type="text" name="kidlengde" id="kidNumberLength" />
+	</p>
+	<p>
+		<span class="js-kid-nummer"></span>
+	</p>
+
+	<button class="js-gen-kid">Generer</button>
+
+	<p>
+		Her kan du generere kid-nummer basert på et fakturanummer, kundenummer eller lignende. 
+		Hvis man lar feltene over stå blankt blir det generert et tilfeldig KID-nummer. Man kan også spesifisere
+		ønsket kid-lengde og da blir det generert utifra dette.
+	</p>
+</section>
+
+<section>
 	<h2>Valider kontonummer</h2>
 	<p>
 		<input type="text" name="kontonummer" id="accountNumber" placeholder="Fyll inn kontonummer her" />
