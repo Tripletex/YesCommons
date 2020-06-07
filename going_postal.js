@@ -56,10 +56,10 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 		let lastPlace
 	
 		/* 
-		  * I postfix the key name (place) with an index number. This is because the same
-			* name doesn't have to occur sequentially in the list. When creating the if
-			* sentences, MIN and MAX numbers should be in a sequence, without other places
-			* in between ....
+		* I postfix the key name (place) with an index number. This is because the same
+		* name doesn't have to occur sequentially in the list. When creating the if
+		* sentences, MIN and MAX numbers should be in a sequence, without other places
+		* in between ....
 		*/
 		let index = 0
 	
