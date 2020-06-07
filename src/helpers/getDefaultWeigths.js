@@ -5,12 +5,12 @@ export function getDefaultMod10Weights(n) {
   const weighted = []
 
   for (let i = 0; i < n; i++) {
-      if (i % 2 === 0) {
-    weighted.push(2)
-  } else {
-    weighted.push(1)
+    if (i % 2 === 0) {
+      weighted.push(2)
+    } else {
+      weighted.push(1)
+    }
   }
-}
   return weighted
 }
 
