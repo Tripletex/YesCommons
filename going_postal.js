@@ -180,6 +180,6 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 		buf.push('}')
 	
 		fs.writeFile('./src/postal.js', buf.join(''), 'UTF-8', () => {})
-})
+	})
 	.catch(console.error)
 
