@@ -1,6 +1,10 @@
 import gen from './helpers/gen'
 import { validate, getDefaultMod10Weights, applyWeights, generate } from './helpers/modCommon'
 
+/**
+ * @param {number[]} digits
+ * @param {number[]} weights (optional) 
+ */
 function mod10(digits, weights = getDefaultMod10Weights(digits.length)) {
   const weightedDigits = applyWeights(digits.reverse(), weights)
   const tverrsum = getTverrsum(weightedDigits)
