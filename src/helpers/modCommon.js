@@ -39,7 +39,7 @@ export function getDefaultMod10Weights(n) {
  * 
  * @param {number} n: number of digits
  */
-export function getDefaultModWeights(n) {
+export function getDefaultMod11Weights(n) {
   const weightOf = idx => ((idx + 6) % 6) + 2;
 
   return Array
@@ -68,7 +68,6 @@ export function validate(digits, weights, modulo) {
 export function generate(length, digits, modulo) {
   const extraCiphers = gen(length - (digits.length + 1));
   const modBase = [...digits, ...extraCiphers];
-  const weights = getDefaultModWeights(modBase.length);
-  const controlDigit = modulo(modBase, weights);
+  const controlDigit = modulo(modBase);
   return digits.reduce((acc, val) => acc + val, "") + extraCiphers.join('') + controlDigit;
 }

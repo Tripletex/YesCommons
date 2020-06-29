@@ -39,7 +39,7 @@ export function mod10_generate(length, digits = gen(length)) {
 * @param {string} number 
 * @param {number[]} weights (optional)
 */
-export function mod10_validate(number, weights = getDefaultMod10Weights(number.length)) {
+export function mod10_validate(number, weights = getDefaultMod10Weights(number.length - 1)) {
   let digits = number.split('').map(val => parseInt(val));
   return validate(digits, weights, mod10);
 }
