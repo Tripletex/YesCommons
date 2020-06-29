@@ -58,6 +58,14 @@
 		<label for="kidlengde">Lengde på KID-nummmer</label>
 		<input type="text" name="kidlengde" id="kidNumberLength" />
 	</p>
+
+	<p>
+		<label for="modulo">Modulus: </label>
+		<select name="modulo" id="modulo_generate">
+			<option value="mod10">MOD 10</option>
+			<option value="mod11">MOD 11</option>
+		</select>
+	</p>
 	<p>
 		<span class="js-kid-nummer"></span>
 	</p>
@@ -85,6 +93,28 @@
 	</p>
 </section>
 
+<section>
+	<h2>Valider KID-nummmer</h2>
+	<p>
+		<input type="text" name="kidNumber" id="kidNumberValidation" placeholder="Fyll inn kidnummer her" />
+	</p>
+
+	<p>
+		<label for="modulo">Modulus: </label>
+		<select name="modulo" id="modulo_validate">
+			<option value="mod10">MOD 10</option>
+			<option value="mod11">MOD 11</option>
+		</select>
+	</p>
+
+	<span id="kidr_validation_result"></span>
+	<br />
+	<button class="js-val-kidnr">Valider</button>
+
+	<p>
+		Du kan bruke dette feltet til å validere et kontonummer for å finne ut om det er gyldig.
+	</p>
+</section>
 
 <section>
 	<h2>Oppslag postnummer</h2>

@@ -1,4 +1,5 @@
-import { applyWeights, gen, validateMod, getDefaultMod10Weights } from './helpers'
+import gen from './helpers/gen'
+import { validate, getDefaultMod10Weights, applyWeights, generate } from './helpers/modCommon'
 
 function mod10(digits, weights = getDefaultMod10Weights(digits.length)) {
   const weightedDigits = applyWeights(digits.reverse(), weights)
@@ -23,22 +24,18 @@ function getTverrsum(weighted) {
 /**
  * 
  * @param {number} length number of digits excluding the control digit
- * @param {number[]} weights (optional)
+ * @param {number[]} digits (optional)
  */
 export function mod10_generate(length, digits = gen(length)) {
-  const extraCiphers = gen(length - (digits.length + 1))
-  const mod11Base = [...digits, ...extraCiphers]
-  const weights = getDefaultMod10Weights(mod11Base.length)
-  const controlDigit = mod10(mod11Base, weights);
-  return digits.reduce((acc, val) => acc + val, "") + extraCiphers.join('') + controlDigit;
+  return generate(length, digits, mod10);
 }
 
 /**
 * 
 * @param {string} number 
-* @param {int[]} weights (optional)
+* @param {number[]} weights (optional)
 */
-export function mod10_validate(number, weights) {
+export function mod10_validate(number, weights = getDefaultMod10Weights(number.length)) {
   let digits = number.split('').map(val => parseInt(val));
-  return validateMod(digits, weights, mod10, 'mod10');
+  return validate(digits, weights, mod10);
 }

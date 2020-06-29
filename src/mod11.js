@@ -1,10 +1,11 @@
-import { applyWeights, gen, validateMod, getDefaultMod11Weights } from './helpers'
+import { applyWeights, validate, getDefaultModWeights, generate } from './helpers/modCommon'
+import gen from './helpers/gen'
 
 /**
  * @param {number[]} digits
  * @param {number[]} weights (optional) 
  */
-function mod11(digits, weights = getDefaultMod11Weights(digits.length)) {
+function mod11(digits, weights = getDefaultModWeights(digits.length)) {
     const weightedDigits = applyWeights(digits, weights)
     const controlDigit = 11 - (weightedDigits.reduce((acc, val) => acc + val, 0) % 11);
     if (controlDigit === 11) {
@@ -21,17 +22,10 @@ function mod11(digits, weights = getDefaultMod11Weights(digits.length)) {
 /**
  * 
  * @param {number} length number of digits excluding the control digit
- * @param {number[]} weights (optional)
+ * @param {number[]} digits (optional)
  */
-export function mod11_generate(length, weights = getDefaultMod11Weights(length)) {
-    if (!weights.length || !Array.isArray(weights)) {
-        return;
-    }
-
-    const digits = gen(length);
-    const controlDigit = mod11(digits, weights);
-
-    return digits.reduce((acc, val) => acc + val, "") + controlDigit;
+export function mod11_generate(length, digits = gen(length)) {
+    return generate(length, digits, mod11);
 }
 
 /**
@@ -39,7 +33,7 @@ export function mod11_generate(length, weights = getDefaultMod11Weights(length))
  * @param {string} number 
  * @param {number[]} weights (optional)
  */
-export function mod11_validate(number, weights) {
+export function mod11_validate(number, weights = getDefaultModWeights(number.length - 1)) {
     let digits = number.split('').map(val => parseInt(val));
-    return validateMod(digits, weights, mod11, 'mod11');
+    return validate(digits, weights, mod11);
 }
