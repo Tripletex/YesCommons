@@ -6,7 +6,7 @@ import { mod11_generate, mod11_validate } from './mod11'
  * @param {Object} params
  * @param {number} params.length Length of the kidnumber
  * @param {String[]} params.baseNum The basenumbers
- * @param {String} params.modulo The modulo
+ * @param {'mod10' | 'mod11'} params.modulo  A selector for choosing which modulo function to run
  * @returns {checkModulo} checkModulo with the given parameters
  */
 export function generateKid({ length, baseNum, modulo }) {
@@ -26,21 +26,21 @@ export function generateKid({ length, baseNum, modulo }) {
   }
   if (baseNum && !Number.isNaN(baseNum)) {
     digits = baseNum.split('').map(num => parseInt(num))
-    return checkModulo(modulo, { mod10: mod10_generate, mod11: mod11_generate }, kidLength, digits) 
+    return validateOrApplyModulo(modulo, { mod10: mod10_generate, mod11: mod11_generate }, kidLength, digits) 
   }
 
-  return checkModulo(modulo, { mod10: mod10_generate, mod11: mod11_generate }, kidLength - 1)
+  return validateOrApplyModulo(modulo, { mod10: mod10_generate, mod11: mod11_generate }, kidLength - 1)
 }
 
 /**
  * @description This function either generates or validates a kid based on the parameters and modulo. It basically
  * decides which functions to call.
- * @param {String} modulo The modulo
+ * @param {'mod10' | 'mod11'} modulo  A selector for choosing which modulo function to run
  * @param {Object} mod mod10/11 generate or validate functions
  * @param  {...any} opts Parameters to either the mod10 or mod11 callback
  * @returns {string | boolean} string or boolean 
  */
-function checkModulo(modulo, { mod10, mod11 }, ...opts) {
+function validateOrApplyModulo(modulo, { mod10, mod11 }, ...opts) {
   let finalMod
   switch (modulo) {
     case 'mod10':
@@ -58,9 +58,9 @@ function checkModulo(modulo, { mod10, mod11 }, ...opts) {
 /**
  * 
  * @param {String} kid The kid number
- * @param {String} modulo The modulo 
+ * @param {'mod10' | 'mod11'} modulo  A selector for choosing which modulo function to run
  * @returns {checkModulo} checkModulo with the given parameters
  */
 export function validateKid(kid, modulo) {
-  return checkModulo(modulo, { mod10: mod10_validate, mod11: mod11_validate }, kid)
+  return validateOrApplyModulo(modulo, { mod10: mod10_validate, mod11: mod11_validate }, kid)
 }
