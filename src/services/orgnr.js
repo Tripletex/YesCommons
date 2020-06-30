@@ -1,4 +1,4 @@
-import { mod11_generate } from './mod11.js'
+import { mod11_generate } from '../lib/mod/mod11'
 
 export default function orgnr() {
 	const orgNummer = mod11_generate(8);

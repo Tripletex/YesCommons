@@ -1,5 +1,5 @@
-import { applyWeights, validate, getDefaultMod11Weights, generate } from './helpers/modCommon'
-import gen from './helpers/gen'
+import { applyWeights, validate, getDefaultMod11Weights, generate } from '../../helpers/mod/modCommon'
+import gen from '../../helpers/gen'
 
 /**
  * @param {number[]} digits
@@ -23,9 +23,10 @@ function mod11(digits, weights = getDefaultMod11Weights(digits.length)) {
  * 
  * @param {number} length number of digits excluding the control digit
  * @param {number[]} digits (optional)
+ * @param {number[]} weights (optional) 
  */
-export function mod11_generate(length, digits = gen(length)) {
-    return generate(length, digits, mod11);
+export function mod11_generate(length, digits = gen(length), weights = getDefaultMod11Weights(digits.length)) {
+    return generate({ length, digits, weights, modulo: mod11})
 }
 
 /**

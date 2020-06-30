@@ -1,9 +1,9 @@
-import { mod11_generate, mod11_validate } from './mod11';
+import { mod11_generate, mod11_validate } from '../lib/mod/mod11'
 
 /**
  * @returns {string} The calculated accountNumber as a string
  */
-export default function generateAccountNumber() {
+export function generateAccountNumber() {
   const accountNumber = mod11_generate(10);
   if (accountNumber[accountNumber.length-1] === '-') {
     return generateAccountNumber();

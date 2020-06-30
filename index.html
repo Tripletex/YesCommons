@@ -33,6 +33,34 @@
 </section>
 
 <section>
+	<h2>Generer fødselsnummer</h2>
+	<p>
+		<label for="fnr_type">Hva slags type fødselsnummer vil du ha?</label>
+		<select name="fnr_type" id="fnr_type">
+			<option value="fnr">Fødselsnummer</option>
+			<option value="dnr">D-nummer</option>
+			<option value="hnr">H-nummer</option>
+			<option value="fhnr">FH-nummer</option>
+		</select>
+	</p>
+
+	<p>
+		<span class="js-fnr"></span>
+	</p>
+
+	<button class="js-gen-fnr">Generer fødselsnummer</button>
+
+	<p>
+		Genererte fødselsnummer er helt tilfeldige tall som tilfredsstiller formelle vilkår
+		til hvordan fødselsnummer skal utformes. De kan tilhøre faktiske eksisterende personer,
+		men de kan også være ubrukte. Behovet for å generere slike numre er, blant annet, for å ha
+		som test-data når man videreutvikler regnskapssystemer. NB!
+
+		Et fødselsnummer består av elleve sifre fordelt på to hoveddeler: fødselsdato (seks sifre) og personnummer (fem sifre). 
+	</p>
+</section>
+
+<section>
 	<h2>Generer bankkontonummer</h2>
 	<p>
 		<span class="js-kontonr"></span>
@@ -94,6 +122,24 @@
 </section>
 
 <section>
+	<h2>Valider fødselsnummer</h2>
+	<p>
+		<input type="text" name="fødselsnummer" id="fnr_validation" placeholder="Fyll inn fødselsnummer her" />
+	</p>
+	<span id="fnr_validation_result"></span>
+	<br />
+	<button class="js-val-fnr">Valider</button>
+
+	<p>
+		Du kan bruke dette feltet til å validere et fødselsnummer/D-nummer/H-nummer/FH-nummer for å finne ut om det er gyldig.
+	</p>
+	<p>
+		NB! Denne validatoren gir ikke en 100% garanti, for selv om validatoren kan si at nummeret er ugyldig - så er det i et par prosent av tilfellene ikke sant. Grunnen til dette 
+		er at Folkeregisteret har gått tom for fødselsnummere på den gitte datoen.
+	</p>
+</section>
+
+<section>
 	<h2>Valider KID-nummmer</h2>
 	<p>
 		<input type="text" name="kidNumber" id="kidNumberValidation" placeholder="Fyll inn kidnummer her" />
@@ -135,6 +181,6 @@
 </footer>
 
 
-<script async src="build/app.min.js"></script>
+<script async src="build/main.min.js"></script>
 </body>
 </html>

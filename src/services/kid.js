@@ -1,6 +1,5 @@
-import { mod10_generate, mod10_validate } from './mod10'
-import { mod11_generate, mod11_validate } from './mod11'
-
+import { mod10_generate, mod10_validate } from '../lib/mod/mod10'
+import { mod11_generate, mod11_validate } from '../lib/mod/mod11'
 /**
  * 
  * @param {Object} params
