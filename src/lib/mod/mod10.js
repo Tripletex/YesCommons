@@ -1,5 +1,5 @@
-import gen from './helpers/gen'
-import { validate, getDefaultMod10Weights, applyWeights, generate } from './helpers/modCommon'
+import gen from '../../helpers/gen'
+import { validate, getDefaultMod10Weights, applyWeights, generate } from '../../helpers/mod/modCommon'
 
 /**
  * @param {number[]} digits
@@ -29,9 +29,10 @@ function getTverrsum(weighted) {
  * 
  * @param {number} length number of digits excluding the control digit
  * @param {number[]} digits (optional)
+ * @param {number[]} weighted (optional) 
  */
-export function mod10_generate(length, digits = gen(length)) {
-  return generate(length, digits, mod10);
+export function mod10_generate(length, digits = gen(length), weights = getDefaultMod10Weights(digits.length)) {
+  return generate({ length, digits, weights, modulo: mod10 });
 }
 
 /**

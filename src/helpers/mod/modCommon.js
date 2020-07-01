@@ -1,4 +1,4 @@
-import gen from './gen'
+import gen from '../gen'
 
 /**
  * 
@@ -55,19 +55,21 @@ export function getDefaultMod11Weights(n) {
  * @param {(digits: number[], weights: number[]) => number} modulo mod10 or mod11 function
  */
 export function validate(digits, weights, modulo) {
-  let givenControl = digits.pop();
-  return givenControl === modulo(digits, weights);
+  const checkedDigits = [...digits]
+  let givenControl = checkedDigits.pop();
+  return givenControl === modulo(checkedDigits, weights);
 }
 
 /**
  * 
  * @param {number} length 
  * @param {number} digits 
+ * @param {number[]} weights
  * @param {(digits: number[], weights: number[]) => number} modulo mod10 or mod11 function
  */
-export function generate(length, digits, modulo) {
+export function generate({ length, digits, weights, modulo }) {
   const extraCiphers = gen(length - (digits.length + 1));
   const modBase = [...digits, ...extraCiphers];
-  const controlDigit = modulo(modBase);
+  const controlDigit = weights.length ? modulo(modBase, weights) : modulo(modBase)
   return digits.reduce((acc, val) => acc + val, "") + extraCiphers.join('') + controlDigit;
 }
