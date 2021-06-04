@@ -1,7 +1,7 @@
 import { mod11_validate, mod11_generate } from '../lib/mod/mod11'
 import gen from '../helpers/gen'
 import fnrTypeString from '../helpers/fnr/fnrTypeString'
-import { checkValidFødselsdato, checkDatesWhenNotFnr, extractDate } from '../helpers/fnr/date';
+import { checkValidDateOfBirth, checkDatesWhenNotFnr, extractDate } from '../helpers/fnr/date';
 import { FNR_TYPES, K1_BASE, K2_BASE } from '../helpers/fnr/constants'
 import { genRandomFnrBase } from '../helpers/fnr/genRandomFnrBase'
 
@@ -117,7 +117,7 @@ export function validateFnr(fnr, fnrType) {
     }
   }
   
-  const isValid = checkValidFødselsdato({ fnr: fnrToCheck.slice(0, 9), fnrType }) 
+  const isValid = checkValidDateOfBirth({ fnr: fnrToCheck.slice(0, 9), fnrType })
     && checkDatesWhenNotFnr(fnrToCheck.slice(0, 2), fnrToCheck.slice(2,4), { dnumber: isDnumber(fnrToCheck), hnumber: isHnumber(fnrToCheck) })
   const result = isValid
     && mod11_validate(fnrToCheck.slice(0, 10), K1_BASE) 
@@ -144,7 +144,7 @@ export function generateFnr({ initialBase = genRandomFnrBase(), fnrType = FNR_TY
   let base = [...initialBase]
   const currentType = FNR_TYPES[fnrType]
 
-  if (currentType === FNR_TYPES.fnr && !checkValidFødselsdato({ fnr: base.join(''), fnrType: currentType })) {
+  if (currentType === FNR_TYPES.fnr && !checkValidDateOfBirth({ fnr: base.join(''), fnrType: currentType })) {
     return generateFnr({ fnrType: FNR_TYPES.fnr })
   }
 

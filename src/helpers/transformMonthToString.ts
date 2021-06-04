@@ -1,4 +1,6 @@
-const monthStrings = {
+import { StringMap } from "../types/types";
+
+const monthStrings: StringMap = {
   "01": "Januar",
   "02": "Februar",
   "03": "Mars",
