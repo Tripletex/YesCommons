@@ -2,7 +2,7 @@ const path = require('path');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
-    entry: './src/app.js',
+    entry: "./src/app.js",
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: '[name].min.js',
@@ -20,7 +20,7 @@ module.exports = {
     devtool: 'source-map',
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+        extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
     },
     module: {
         rules: [
@@ -29,5 +29,5 @@ module.exports = {
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             { test: /\.js$/, loader: "source-map-loader" },
         ],
-    },
+    }
 };
