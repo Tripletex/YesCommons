@@ -1,11 +1,12 @@
 import { applyWeights, validate, getDefaultMod11Weights, generate } from '../../helpers/mod/modCommon'
 import gen from '../../helpers/gen'
+import {MOD11, ModuloFunction} from "../../types/types";
 
 /**
  * @param {number[]} digits
  * @param {number[]} weights (optional) 
  */
-function mod11(digits, weights = getDefaultMod11Weights(digits.length)) {
+function mod11(digits: number[], weights: number[] = getDefaultMod11Weights(digits.length)): MOD11   {
     const weightedDigits = applyWeights(digits, weights)
     const controlDigit = 11 - (weightedDigits.reduce((acc, val) => acc + val, 0) % 11);
     if (controlDigit === 11) {
@@ -25,7 +26,7 @@ function mod11(digits, weights = getDefaultMod11Weights(digits.length)) {
  * @param {number[]} digits (optional)
  * @param {number[]} weights (optional) 
  */
-export function mod11_generate(length, digits = gen(length), weights = getDefaultMod11Weights(digits.length)) {
+export function mod11_generate(length: number, digits: number[] = gen(length), weights: number[] = getDefaultMod11Weights(digits.length)) {
     return generate({ length, digits, weights, modulo: mod11})
 }
 

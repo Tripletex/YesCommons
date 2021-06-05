@@ -1,11 +1,12 @@
 import gen from '../../helpers/gen'
 import { validate, getDefaultMod10Weights, applyWeights, generate } from '../../helpers/mod/modCommon'
+import {MOD10} from "../../types/types";
 
 /**
  * @param {number[]} digits
  * @param {number[]} weights (optional) 
  */
-function mod10(digits: number[], weights: number[] = getDefaultMod10Weights(digits.length)): number {
+function mod10(digits: number[], weights: number[] = getDefaultMod10Weights(digits.length)): MOD10 {
   const weightedDigits = applyWeights(digits.reverse(), weights)
   const crossSum = getCrossSum(weightedDigits)
   return (10 - (crossSum % 10)) % 10 == 0 ? 0 : 10 - (crossSum % 10)
@@ -34,7 +35,7 @@ export function mod10_generate(length: number, digits: number[] = gen(length), w
 }
 
 /**
-* @param {string} number 
+* @param {string} number
 * @param {number[]} weights (optional)
 */
 export function mod10_validate(number: string, weights: number[] = getDefaultMod10Weights(number.length - 1)): boolean {

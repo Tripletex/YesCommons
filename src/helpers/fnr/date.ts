@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import monthStrings from '../transformMonthToString'
 import {FNR_TYPES} from './constants'
-import {Gender} from "../../types/types";
+import {ExtractedDate, Gender} from "../../types/types";
 
 /**
  * 
@@ -21,9 +21,9 @@ export function appendYearBasedOnIndividual(year: number, individual: number): n
 }
 
 type CheckDatesParam = {
-  dnumber: boolean, // Result of dnumber validation
-  hnumber: boolean, // Result of hnumber validation
-  fhnumber: boolean // Result of fhnumber validation
+  dnumber?: boolean, // Result of dnumber validation
+  hnumber?: boolean, // Result of hnumber validation
+  fhnumber?: boolean // Result of fhnumber validation
 }
 
 /**
@@ -68,15 +68,6 @@ export function checkValidDateOfBirth(params: ValidBirthdayParam): boolean {
   const { fnr, isStrictMode = true, fnrType } = params
   const { ISODate } = extractDate(fnr, fnrType)
   return moment(ISODate, 'YYYY-MM-DD', isStrictMode).isValid()
-}
-
-type ExtractedDate = {
-  date: Date,
-  year: number,
-  month: number,
-  day: number,
-  ISODate: string,
-  gender: Gender
 }
 
 /**

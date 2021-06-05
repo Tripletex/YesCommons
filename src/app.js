@@ -1,24 +1,33 @@
 import orgnr from './services/orgnr';
 import { generateAccountNumber, validateAccountNumber } from './services/kontonr';
 import postnummer from './services/postal'
-import { generateKid, validateKid } from './services/kid'
+import {generateKid, generateKidMod10, validateKid} from './services/kid'
 import { generateFnr, validateFnr } from './services/fnr'
-import getFnrType from './helpers/fnr/getFnrType' 
+import getFnrType from './helpers/fnr/getFnrType'
+import {MAX_KID_LENGTH, MIN_KID_LENGTH, Modulo} from "./types/types";
 
 function newKidNr() {
 	try {
-		const RANDOM_KID_NUMBER_LENGTH = 3 + Math.floor(Math.random() * 22)
-		const kidNumberSpan = document.querySelector('#kidNumberBase')
+		const kidBaseSpan = document.querySelector('#kidNumberBase')
+		const kidBase = kidBaseSpan.value.trim().replace(/[^0-9]+/g, '')
+
 		const kidNumberLengthSpan = document.querySelector('#kidNumberLength')
 		const kidNumberLength = kidNumberLengthSpan.value.trim()
-		const kidNumberBase = kidNumberSpan.value.trim()
+		const randomKidLength = Math.floor(Math.random() * (MAX_KID_LENGTH - kidBase.length - MIN_KID_LENGTH - 1)) + MIN_KID_LENGTH + kidBase.length // There are three things I hate: overly-complicated variable instantiations, arithmetic, and long comments.
+		const kidLength = (kidNumberLength) ? kidNumberLength : randomKidLength
+
 		const modulo = document.querySelector('select#modulo_generate').value;
-		const kidNumber = !kidNumberBase && !kidNumberLength 
-		? generateKid({ length: RANDOM_KID_NUMBER_LENGTH, modulo }) 
-		: !kidNumberBase && kidNumberLength 
-		? generateKid({ length: kidNumberLength, modulo })
-		: generateKid({ length: kidNumberLength, baseNum: kidNumberBase, modulo })
-		document.querySelector('.js-kid-nummer').innerText = kidNumber
+		const kidSpan = document.querySelector('.js-kid-nummer');
+		switch (modulo) {
+			case Modulo.mod10:
+				kidSpan.innerText = generateKidMod10(kidBase, kidLength)
+				break
+			case Modulo.mod11:
+				kidSpan.innerText = modulo
+				break;
+			default:
+				kidSpan.innerText = "Something went wrong. Please ensure you've selected a supported modulo."
+		}
 	} catch(e) {
 		document.querySelector('.js-kid-nummer').innerText = e.message
 	}

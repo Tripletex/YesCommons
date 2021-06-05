@@ -4,12 +4,12 @@ import fnrTypeString from '../helpers/fnr/fnrTypeString'
 import { checkValidDateOfBirth, checkDatesWhenNotFnr, extractDate } from '../helpers/fnr/date';
 import { FNR_TYPES, K1_BASE, K2_BASE } from '../helpers/fnr/constants'
 import { genRandomFnrBase } from '../helpers/fnr/genRandomFnrBase'
+import {ControlCiphers, ControlCipherWrapper, ErrorMessage, ExtractedDate, ValidateFnrWrapper} from "../types/types";
 
 /**
- * 
  * @param {number[]} initialDigits array of digits used for control cipher generation
  */
-function extractControlCiphers(initialDigits) {
+function extractControlCiphers(initialDigits: number[]): ControlCiphers {
   let digits = [...initialDigits];
   const finalBase = mod11_generate(digits.length, digits, K1_BASE);
   if (finalBase.includes('-')) {
@@ -28,7 +28,7 @@ function extractControlCiphers(initialDigits) {
  * 
  * @param {String} baseFnr The base social security number to generate ciphers
  */
-function generateControlCiphers(baseFnr) {
+function generateControlCiphers(baseFnr: string): ControlCipherWrapper | ErrorMessage {
   if (typeof baseFnr !== 'string') {
     return {
       success: false,
@@ -68,24 +68,24 @@ function generateControlCiphers(baseFnr) {
  * 
  * @param {String} fnr The social security number to check
  */
-export const isDnumber = (fnr) => fnr.slice(0, 1) >= '4' && (fnr.slice(0, 1) < '7' || (fnr.slice(0, 1) === '7' && fnr.slice(1, 2) <= '1'));
+export const isDnumber = (fnr: string): boolean => fnr.slice(0, 1) >= '4' && (fnr.slice(0, 1) < '7' || (fnr.slice(0, 1) === '7' && fnr.slice(1, 2) <= '1'));
 /**
  * 
  * @param {String} fnr The social security number to check
  */
-export const isHnumber = (fnr) => (fnr.slice(2, 3) === '4' && fnr.slice(3, 4) >= '1') || (fnr.slice(2, 3) === '5' && fnr.slice(3, 4) <= '2');
+export const isHnumber = (fnr: string): boolean => (fnr.slice(2, 3) === '4' && fnr.slice(3, 4) >= '1') || (fnr.slice(2, 3) === '5' && fnr.slice(3, 4) <= '2');
 /**
  * 
  * @param {String} fnr The social security number to check
  */  
-export const isFHnumber = (fnr) => fnr.slice(0, 1) >= '8';
+export const isFHnumber = (fnr: string): boolean => fnr.slice(0, 1) >= '8';
 
 /**
  * 
  * @param {String} fnr The social security number to check
  * @param {String} fnrType string indicator of fnr
  */
-export function validateFnr(fnr, fnrType) {
+export function validateFnr(fnr: string, fnrType: FNR_TYPES): ValidateFnrWrapper | ErrorMessage {
   if (typeof fnr !== 'string') {
     return {
       success: false,
@@ -129,7 +129,7 @@ export function validateFnr(fnr, fnrType) {
     fnr: fnrToCheck,
     type: fnrType,
     typeString: fnrTypeString(fnrType),
-    ...(result === true && fnrType !== FNR_TYPES.fhnr && parseFnr(fnr, fnrType))
+    ...(result === true && parseFnr(fnr, fnrType))
   }
 }
 
@@ -165,10 +165,12 @@ export function generateFnr({ initialBase = genRandomFnrBase(), fnrType = FNR_TY
   }
 
   const baseFnr = base.join('')
-  const { success, controlCiphers } = generateControlCiphers(baseFnr)
-  if (!success) {
+  const ciphers = generateControlCiphers(baseFnr);
+
+  if (!ciphers.success) {
     return generateFnr({ fnrType: currentType })
   }
+  const { controlCiphers } = ciphers as ControlCipherWrapper;
   const fnr = `${baseFnr}${controlCiphers}`
   const isValid = validateFnr(fnr, currentType).success
   if (!isValid) {
@@ -188,7 +190,7 @@ export function generateFnr({ initialBase = genRandomFnrBase(), fnrType = FNR_TY
  * @param {String} fnr the fødselsnummer (only the nine first ciphers are used) 
  * @param {String} fnrType string indicator of fnr
  */
-export function parseFnr(fnr, fnrType) {
+export function parseFnr(fnr: string, fnrType: string): ExtractedDate {
   const { year, day, month, date, gender } = extractDate(fnr, fnrType)
   return {
     gender,

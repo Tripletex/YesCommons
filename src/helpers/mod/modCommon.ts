@@ -1,4 +1,5 @@
 import gen from '../gen'
+import {MOD10, MOD11, ModuloFunction} from "../../types/types";
 
 /**
  * Multiplies every i-th element of <code>digits</code>
@@ -55,7 +56,6 @@ export function getDefaultMod11Weights(n: number): number[] {
 }
 
 
-type ModuloFunction = (digits: number[], weight?: number[]) => number;
 /**
  * @param {number[]} digits all the digits including the control digit
  * @param {number[]} weights
@@ -83,6 +83,6 @@ type GenerateObject = {
 export function generate({ length, digits, weights, modulo }: GenerateObject): string {
   const extraCiphers: number[] = gen(length - (digits.length + 1));
   const modBase: number[] = [...digits, ...extraCiphers];
-  const controlDigit: number = weights.length ? modulo(modBase, weights) : modulo(modBase)
+  const controlDigit: MOD10 | MOD11 = weights.length ? modulo(modBase, weights) : modulo(modBase)
   return digits.reduce((acc, val) => acc + val, "") + extraCiphers.join('') + controlDigit;
 }

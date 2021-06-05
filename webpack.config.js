@@ -2,15 +2,23 @@ const path = require('path');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
-    entry: "./src/app.js",
-    output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: '[name].min.js',
-        chunkFilename: '[name].min.js'
+    entry: './src/app.js',
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+        ],
     },
-    mode: 'production',
-    stats: {
-        colors: true
+    mode: "production",
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
         new MomentLocalesPlugin({
@@ -18,16 +26,4 @@ module.exports = {
         }),
     ],
     devtool: 'source-map',
-    resolve: {
-        // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
-    },
-    module: {
-        rules: [
-            // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-            { test: /\.tsx?$/, loader: "ts-loader" },
-            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { test: /\.js$/, loader: "source-map-loader" },
-        ],
-    }
 };
