@@ -18,21 +18,6 @@ export function applyWeights(digits: number[], weights: number[]): number[] {
 }
 
 /**
- * @param {number} n number of digits in returning array, must be >= 0.
- * @return {number[]} new array, contains [2,1,2,1,...]
- */
-export function getDefaultMod10Weights(n: number): number[] {
-  const weighted: number[] = new Array(n);
-
-  let even: boolean = true;
-  for (let i = 0; i < n; i++) {
-    weighted[i] = (even) ? 2 : 1;
-    even = !even;
-  }
-  return weighted;
-}
-
-/**
  * Derived from observing:
  * - weights goes from 7 down to 2 in cycles
  * - the last weight is always 2
