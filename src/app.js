@@ -1,7 +1,14 @@
 import orgnr from './services/orgnr';
 import { generateAccountNumber, validateAccountNumber } from './services/kontonr';
 import postnummer from './services/postal'
-import {generateKid, generateKidMod10, validateKid} from './services/kid'
+import {
+	generateKid,
+	generateKidMod10,
+	generateKidMod11,
+	validateKid,
+	validateKid_mod10,
+	validateKid_mod11
+} from './services/kid'
 import { generateFnr, validateFnr } from './services/fnr'
 import getFnrType from './helpers/fnr/getFnrType'
 import {MAX_KID_LENGTH, MIN_KID_LENGTH, Modulo} from "./types/types";
@@ -23,7 +30,7 @@ function newKidNr() {
 				kidSpan.innerText = generateKidMod10(kidBase, kidLength)
 				break
 			case Modulo.mod11:
-				kidSpan.innerText = modulo
+				kidSpan.innerText = generateKidMod11(kidBase, kidLength)
 				break;
 			default:
 				kidSpan.innerText = "Something went wrong. Please ensure you've selected a supported modulo."
@@ -70,13 +77,22 @@ function validateKontoNr(e) {
 function validateKidNr(e) {
 	e.preventDefault();
 	try {
-		const kidNumberInput = document.querySelector('input#kidNumberValidation');
-		const resultSpan = document.querySelector('span#kidr_validation_result');
-		const initialKidNumber = '' + kidNumberInput.value;
-		const kidNumber = kidNumberInput.value.replace(/\s+/g, '');
+		const kid = document.querySelector('input#kidNumberValidation').value.toString();
 		const modulo = document.querySelector('select#modulo_validate').value;
-		const isValidKidNr = validateKid(kidNumber, modulo);
-		resultSpan.textContent = `${initialKidNumber} er et ${isValidKidNr ? 'gyldig' : 'ugyldig'} kidnummer.`;	
+
+		let isValid;
+		switch (modulo) {
+			case Modulo.mod10:
+				isValid = validateKid_mod10(kid)
+				break;
+			case Modulo.mod11:
+				isValid = validateKid_mod11(kid)
+				break;
+			default:
+				isValid = false;
+		}
+		const resultSpan = document.querySelector('span#kidr_validation_result');
+		resultSpan.textContent = `${kid} er et ${isValid ? 'gyldig' : 'ugyldig'} kidnummer.`;
 	} catch (error) {
 		resultSpan.textContent = error.message;
 	}
