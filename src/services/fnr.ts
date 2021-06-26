@@ -4,7 +4,14 @@ import fnrTypeString from '../helpers/fnr/fnrTypeString'
 import { checkValidDateOfBirth, checkDatesWhenNotFnr, extractDate } from '../helpers/fnr/date';
 import { FNR_TYPES, K1_BASE, K2_BASE } from '../helpers/fnr/constants'
 import { genRandomFnrBase } from '../helpers/fnr/genRandomFnrBase'
-import {ControlCiphers, ControlCipherWrapper, ErrorMessage, ExtractedDate, ValidateFnrWrapper} from "../types/types";
+import {
+  ControlCiphers,
+  ControlCipherWrapper,
+  ErrorMessage,
+  ExtractedDate,
+  Gender,
+  ValidateFnrWrapper
+} from "../types/types";
 
 /**
  * @param {number[]} initialDigits array of digits used for control cipher generation
@@ -133,55 +140,68 @@ export function validateFnr(fnr: string, fnrType: FNR_TYPES): ValidateFnrWrapper
   }
 }
 
+export const generateFnr = (gender: Gender): string => {
+  const birthday = generateRandomBirthDate();
+  const personNumber = generateRandomPersonNumber(gender)
+
+  return birthday.concat(personNumber)
+}
+
+export const generateRandomPersonNumber = (gender: Gender): string => {
+  return '12345'
+}
+
+export const generateRandomBirthDate = (): string => {
+  const day = generateRandomIntInRange(1, 31)
+  const month = generateRandomIntInRange(1, 13)
+  const year = generateRandomIntInRange(1920, 2022)
+
+  return validateAndCreateBirthday(day, month, year);
+}
+
+const validateAndCreateBirthday = (day: number, month: number, year: number): string => {
+  if (month === 2) {
+    if (day > 28) (isLeapYear(year)) ? day = 29 : day = 28
+  }
+  if (isDayToBigForMonth) day = 30
+  return [day, month, year].join()
+}
+
+const isDayToBigForMonth = (day: number, month: number, year?: number): boolean => {
+  switch (month) {
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+      return day > 31
+    case 2:
+      return (year && isLeapYear(year)) ? day > 29 : day > 28
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+      return day > 30
+    default:
+      return false
+  }
+}
+
 /**
- * @param {Object} params
- * @param {number[]} params.initialBase array of base numbers used for generation of fnr, ${genRandomFnrBase} is used by default
- * @param {String} params.fnrType string indicator of fnr
- * @returns {String} A norwegian fødselsnummer/d-nummer/h-nummer/fh-nummer
+ * Checks if the given year is a leap year.
+ * Courtesy of <a href="https://stackoverflow.com/questions/16353211/check-if-year-is-leap-year-in-javascript">StackOverflow</a>.
+ * @param year the year to check
  */
-export function generateFnr({ initialBase = genRandomFnrBase(), fnrType = FNR_TYPES.fnr } = {}) {
-  let firstCipher
-  let base = [...initialBase]
-  const currentType = FNR_TYPES[fnrType]
+const isLeapYear = (year: number): boolean => {
+  return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)
+}
 
-  if (currentType === FNR_TYPES.fnr && !checkValidDateOfBirth({ fnr: base.join(''), fnrType: currentType })) {
-    return generateFnr({ fnrType: FNR_TYPES.fnr })
-  }
-
-  if (currentType === FNR_TYPES.dnr) {
-    const [,...rest] = initialBase
-    firstCipher = Math.floor(Math.random () * 7) + 4
-    base = [firstCipher, ...rest]
-  }
-
-  if (currentType === FNR_TYPES.hnr) {
-    const [d1, d2,, ...rest] = initialBase
-    base = [d1, d2, Math.floor(Math.random() * 2) + 4, ...rest]
-  }
-
-  if (currentType === FNR_TYPES.fhnr) {
-    firstCipher = 8 + (Math.floor(Math.random () * 2))
-    base = [firstCipher, ...gen(8)]
-  }
-
-  const baseFnr = base.join('')
-  const ciphers = generateControlCiphers(baseFnr);
-
-  if (!ciphers.success) {
-    return generateFnr({ fnrType: currentType })
-  }
-  const { controlCiphers } = ciphers as ControlCipherWrapper;
-  const fnr = `${baseFnr}${controlCiphers}`
-  const isValid = validateFnr(fnr, currentType).success
-  if (!isValid) {
-    return generateFnr({ fnrType: currentType })
-  }
-  return {
-    fnr,
-    type: currentType,
-    typeString: fnrTypeString(currentType),
-    ...(isValid === true && currentType !== FNR_TYPES.fhnr && parseFnr(fnr, currentType))
-  }
+const generateRandomIntInRange = (inclusiveMin: number, exclusiveMax: number): number => {
+  inclusiveMin = Math.ceil(inclusiveMin);
+  exclusiveMax = Math.floor(exclusiveMax);
+  return Math.floor(Math.random() * (exclusiveMax - inclusiveMin + 1)) + inclusiveMin;
 }
 
 /**
