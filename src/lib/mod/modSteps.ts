@@ -61,5 +61,8 @@ export const luhn_step5_mod11 = (n: number): string => {
     if (fix === 10) {
         return '-'
     }
+    if (fix === 11) {
+        return '0'
+    }
     return fix.toString()
 }

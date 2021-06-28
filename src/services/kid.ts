@@ -88,6 +88,9 @@ export const validateKid_mod11 = (kid: string): boolean => {
 
   if (controlDigit === '-')
     return 11 - (sum % 11) === 10
+  else if (controlDigit === '0') {
+    return 11 - (sum % 11) === 11
+  }
   else
     return 11 - (sum % 11) === +controlDigit
 }
