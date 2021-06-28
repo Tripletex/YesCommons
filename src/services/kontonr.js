@@ -1,10 +1,12 @@
-import { mod11_generate, mod11_validate } from '../lib/mod/mod11'
+
+import {mod11} from "../lib/mod/mod11";
+import {validateKid_mod11} from "./kid";
 
 /**
  * @returns {string} The calculated accountNumber as a string
  */
 export function generateAccountNumber() {
-  const accountNumber = mod11_generate(10);
+  const accountNumber = mod11('',10);
   if (accountNumber[accountNumber.length-1] === '-') {
     return generateAccountNumber();
   }
@@ -17,5 +19,5 @@ export function generateAccountNumber() {
  * @returns Boolean value to see if the checkDigit matches the last cipher in the accountNumber
  */
 export function validateAccountNumber(accountNumber) {
-  return mod11_validate(accountNumber)
+  return validateKid_mod11(accountNumber)
 }

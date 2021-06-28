@@ -11,7 +11,7 @@ import {
 } from './services/kid'
 import { generateFnr, validateFnr } from './services/fnr'
 import getFnrType from './helpers/fnr/getFnrType'
-import {MAX_KID_LENGTH, MIN_KID_LENGTH, Modulo} from "./types/types";
+import {Gender, MAX_KID_LENGTH, MIN_KID_LENGTH, Modulo} from "./types/types";
 
 function newKidNr() {
 	try {
@@ -43,7 +43,7 @@ function newKidNr() {
 function newFnr() {
 	const fnrSpan = document.querySelector('.js-fnr');
 	const fnrType = document.querySelector('select#fnr_type').value;
-	const { fnr } = generateFnr({ fnrType });
+	const { fnr } = generateFnr(Gender.male);
 	fnrSpan.innerText = fnr;
 }
 
