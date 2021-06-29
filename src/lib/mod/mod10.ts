@@ -1,4 +1,10 @@
-import {luhn_step1, luhn_step2, luhn_step3_mod10, luhn_step4, luhn_step5_mod10} from "./modSteps";
+import {
+  luhn_step1,
+  luhn_step2,
+  luhn_step3_mod10,
+  luhn_step4,
+  luhn_step5_mod10,
+} from './modSteps'
 
 /**
  * @desc Algorithm is based on {@link https://en.wikipedia.org/wiki/Luhn_algorithm Luhn}. Summarized:
@@ -18,10 +24,10 @@ import {luhn_step1, luhn_step2, luhn_step3_mod10, luhn_step4, luhn_step5_mod10} 
  * @date 2021-06-05
  */
 export const mod10 = (base: string, length: number): string => {
-    const step1: string = luhn_step1(base, length)
-    const step2: number[] = luhn_step2(step1)
-    const step3: number[] = luhn_step3_mod10(step2)
-    const step4: number = luhn_step4(step3)
-    const step5: string = luhn_step5_mod10(step4)
-    return step1.concat(step5)
+  const step1: string = luhn_step1(base, length)
+  const step2: number[] = luhn_step2(step1)
+  const step3: number[] = luhn_step3_mod10(step2)
+  const step4: number = luhn_step4(step3)
+  const step5: string = luhn_step5_mod10(step4)
+  return step1.concat(step5)
 }

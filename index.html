@@ -1,186 +1,217 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta name="author" content="Tripletex AS">
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta name="author" content="Tripletex AS" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<title>Felles nyttige regnskaps-verktøy</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-<header>
-	<h1>YesCommons</h1>
-	<h2>
-		Nyttige verktøy for testing og feilsøking av programvare i regnskapsbransjen
-	</h2>
-</header>
+    <title>Felles nyttige regnskaps-verktøy</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>YesCommons</h1>
+      <h2>
+        Nyttige verktøy for testing og feilsøking av programvare i
+        regnskapsbransjen
+      </h2>
+    </header>
 
-<section>
-	<h2>Generer organisasjonsnummer</h2>
-	<p>
-		<span class="js-orgnr"></span>
-	</p>
+    <section>
+      <h2>Generer organisasjonsnummer</h2>
+      <p>
+        <span class="js-orgnr"></span>
+      </p>
 
-	<button class="js-gen-orgnr">Generer nytt nummer</button>
+      <button class="js-gen-orgnr">Generer nytt nummer</button>
 
-	<p>
-		Genererte organisasjonsnummer er helt tilfeldige tall som tilfredsstiller formelle vilkår
-		til hvordan organisasjonsnumre skal utformes. De kan tilhøre faktiske eksisterende selskap,
-		men de kan også være ubrukte. Behovet for å generere slike numre er, blant annet, for å ha
-		som test-data når man videreutvikler regnskapssystemer.
-	</p>
-</section>
+      <p>
+        Genererte organisasjonsnummer er helt tilfeldige tall som
+        tilfredsstiller formelle vilkår til hvordan organisasjonsnumre skal
+        utformes. De kan tilhøre faktiske eksisterende selskap, men de kan også
+        være ubrukte. Behovet for å generere slike numre er, blant annet, for å
+        ha som test-data når man videreutvikler regnskapssystemer.
+      </p>
+    </section>
 
-<section>
-	<h2>Generer fødselsnummer</h2>
-	<p>
-		<label for="fnr_type">Hva slags type fødselsnummer vil du ha?</label>
-		<select name="fnr_type" id="fnr_type">
-			<option value="fnr">Fødselsnummer</option>
-			<option value="dnr">D-nummer</option>
-			<option value="hnr">H-nummer</option>
-			<option value="fhnr">FH-nummer</option>
-		</select>
-	</p>
+    <section>
+      <h2>Generer fødselsnummer</h2>
+      <p>
+        <label for="fnr_type">Hva slags type fødselsnummer vil du ha?</label>
+        <select name="fnr_type" id="fnr_type">
+          <option value="fnr">Fødselsnummer</option>
+          <option value="dnr">D-nummer</option>
+          <option value="hnr">H-nummer</option>
+          <option value="fhnr">FH-nummer</option>
+        </select>
+      </p>
 
-	<p>
-		<span class="js-fnr"></span>
-	</p>
+      <p>
+        <span class="js-fnr"></span>
+      </p>
 
-	<button class="js-gen-fnr">Generer fødselsnummer</button>
+      <button class="js-gen-fnr">Generer fødselsnummer</button>
 
-	<p>
-		Genererte fødselsnummer er helt tilfeldige tall som tilfredsstiller formelle vilkår
-		til hvordan fødselsnummer skal utformes. De kan tilhøre faktiske eksisterende personer,
-		men de kan også være ubrukte. Behovet for å generere slike numre er, blant annet, for å ha
-		som test-data når man videreutvikler regnskapssystemer. NB!
+      <p>
+        Genererte fødselsnummer er helt tilfeldige tall som tilfredsstiller
+        formelle vilkår til hvordan fødselsnummer skal utformes. De kan tilhøre
+        faktiske eksisterende personer, men de kan også være ubrukte. Behovet
+        for å generere slike numre er, blant annet, for å ha som test-data når
+        man videreutvikler regnskapssystemer. NB! Et fødselsnummer består av
+        elleve sifre fordelt på to hoveddeler: fødselsdato (seks sifre) og
+        personnummer (fem sifre).
+      </p>
+    </section>
 
-		Et fødselsnummer består av elleve sifre fordelt på to hoveddeler: fødselsdato (seks sifre) og personnummer (fem sifre). 
-	</p>
-</section>
+    <section>
+      <h2>Generer bankkontonummer</h2>
+      <p>
+        <span class="js-kontonr"></span>
+      </p>
 
-<section>
-	<h2>Generer bankkontonummer</h2>
-	<p>
-		<span class="js-kontonr"></span>
-	</p>
+      <button class="js-gen-kontonr">Generer</button>
 
-	<button class="js-gen-kontonr">Generer</button>
+      <p>
+        Genererte bankkontonummer er helt tilfeldige tall som tilfredsstiller
+        formelle vilkår til hvordan bankkontonumre skal utformes. De kan tilhøre
+        faktiske eksisterende kontoer, men de kan også være ubrukte. Behovet for
+        å generere slike numre er, blant annet, for å ha som test-data når man
+        videreutvikler regnskapssystemer.
+      </p>
+    </section>
 
-	<p>
-		Genererte bankkontonummer er helt tilfeldige tall som tilfredsstiller formelle vilkår
-		til hvordan bankkontonumre skal utformes. De kan tilhøre faktiske eksisterende kontoer,
-		men de kan også være ubrukte. Behovet for å generere slike numre er, blant annet, for å ha
-		som test-data når man videreutvikler regnskapssystemer.
-	</p>
-</section>
+    <section>
+      <h2>Generer KID-nummer</h2>
+      <p>
+        <label for="kidnummer">Fakturanummer/Kundenummer</label>
+        <input type="text" name="kidnummer" id="kidNumberBase" />
+      </p>
+      <p>
+        <label for="kidlengde">Lengde på KID-nummmer</label>
+        <input type="text" name="kidlengde" id="kidNumberLength" />
+      </p>
 
-<section>
-	<h2>Generer KID-nummer</h2>
-	<p>
-		<label for="kidnummer">Fakturanummer/Kundenummer</label>
-		<input type="text" name="kidnummer" id="kidNumberBase" />
-	</p>
-	<p>
-		<label for="kidlengde">Lengde på KID-nummmer</label>
-		<input type="text" name="kidlengde" id="kidNumberLength" />
-	</p>
+      <p>
+        <label for="modulo">Modulus: </label>
+        <select name="modulo" id="modulo_generate">
+          <option value="mod10">MOD 10</option>
+          <option value="mod11">MOD 11</option>
+        </select>
+      </p>
+      <p>
+        <span class="js-kid-nummer"></span>
+      </p>
 
-	<p>
-		<label for="modulo">Modulus: </label>
-		<select name="modulo" id="modulo_generate">
-			<option value="mod10">MOD 10</option>
-			<option value="mod11">MOD 11</option>
-		</select>
-	</p>
-	<p>
-		<span class="js-kid-nummer"></span>
-	</p>
+      <button class="js-gen-kid">Generer</button>
 
-	<button class="js-gen-kid">Generer</button>
+      <p>
+        Her kan du generere kid-nummer basert på et fakturanummer, kundenummer
+        eller lignende. Hvis man lar feltene over stå blankt blir det generert
+        et tilfeldig KID-nummer. Man kan også spesifisere ønsket kid-lengde og
+        da blir det generert utifra dette.
+      </p>
+    </section>
 
-	<p>
-		Her kan du generere kid-nummer basert på et fakturanummer, kundenummer eller lignende. 
-		Hvis man lar feltene over stå blankt blir det generert et tilfeldig KID-nummer. Man kan også spesifisere
-		ønsket kid-lengde og da blir det generert utifra dette.
-	</p>
-</section>
+    <section>
+      <h2>Valider kontonummer</h2>
+      <p>
+        <input
+          type="text"
+          name="kontonummer"
+          id="accountNumber"
+          placeholder="Fyll inn kontonummer her"
+        />
+      </p>
+      <span id="accont_validation_result"></span>
+      <br />
+      <button class="js-val-kontonr">Valider</button>
 
-<section>
-	<h2>Valider kontonummer</h2>
-	<p>
-		<input type="text" name="kontonummer" id="accountNumber" placeholder="Fyll inn kontonummer her" />
-	</p>
-	<span id="accont_validation_result"></span>
-	<br />
-	<button class="js-val-kontonr">Valider</button>
+      <p>
+        Du kan bruke dette feltet til å validere et kontonummer for å finne ut
+        om det er gyldig.
+      </p>
+    </section>
 
-	<p>
-		Du kan bruke dette feltet til å validere et kontonummer for å finne ut om det er gyldig.
-	</p>
-</section>
+    <section>
+      <h2>Valider fødselsnummer</h2>
+      <p>
+        <input
+          type="text"
+          name="fødselsnummer"
+          id="fnr_validation"
+          placeholder="Fyll inn fødselsnummer her"
+        />
+      </p>
+      <span id="fnr_validation_result"></span>
+      <br />
+      <button class="js-val-fnr">Valider</button>
 
-<section>
-	<h2>Valider fødselsnummer</h2>
-	<p>
-		<input type="text" name="fødselsnummer" id="fnr_validation" placeholder="Fyll inn fødselsnummer her" />
-	</p>
-	<span id="fnr_validation_result"></span>
-	<br />
-	<button class="js-val-fnr">Valider</button>
+      <p>
+        Du kan bruke dette feltet til å validere et
+        fødselsnummer/D-nummer/H-nummer/FH-nummer for å finne ut om det er
+        gyldig.
+      </p>
+      <p>
+        NB! Denne validatoren gir ikke en 100% garanti, for selv om validatoren
+        kan si at nummeret er ugyldig - så er det i et par prosent av tilfellene
+        ikke sant. Grunnen til dette er at Folkeregisteret har gått tom for
+        fødselsnummere på den gitte datoen.
+      </p>
+    </section>
 
-	<p>
-		Du kan bruke dette feltet til å validere et fødselsnummer/D-nummer/H-nummer/FH-nummer for å finne ut om det er gyldig.
-	</p>
-	<p>
-		NB! Denne validatoren gir ikke en 100% garanti, for selv om validatoren kan si at nummeret er ugyldig - så er det i et par prosent av tilfellene ikke sant. Grunnen til dette 
-		er at Folkeregisteret har gått tom for fødselsnummere på den gitte datoen.
-	</p>
-</section>
+    <section>
+      <h2>Valider KID-nummmer</h2>
+      <p>
+        <input
+          type="text"
+          name="kidNumber"
+          id="kidNumberValidation"
+          placeholder="Fyll inn kidnummer her"
+        />
+      </p>
 
-<section>
-	<h2>Valider KID-nummmer</h2>
-	<p>
-		<input type="text" name="kidNumber" id="kidNumberValidation" placeholder="Fyll inn kidnummer her" />
-	</p>
+      <p>
+        <label for="modulo">Modulus: </label>
+        <select name="modulo" id="modulo_validate">
+          <option value="mod10">MOD 10</option>
+          <option value="mod11">MOD 11</option>
+        </select>
+      </p>
 
-	<p>
-		<label for="modulo">Modulus: </label>
-		<select name="modulo" id="modulo_validate">
-			<option value="mod10">MOD 10</option>
-			<option value="mod11">MOD 11</option>
-		</select>
-	</p>
+      <span id="kidr_validation_result"></span>
+      <br />
+      <button class="js-val-kidnr">Valider</button>
 
-	<span id="kidr_validation_result"></span>
-	<br />
-	<button class="js-val-kidnr">Valider</button>
+      <p>
+        Du kan bruke dette feltet til å validere et kidnummer for å finne ut om
+        det er gyldig.
+      </p>
+    </section>
 
-	<p>
-		Du kan bruke dette feltet til å validere et kidnummer for å finne ut om det er gyldig.
-	</p>
-</section>
+    <section>
+      <h2>Oppslag postnummer</h2>
+      <input placeholder="Postnummer" type="number" name="postnummer" />
+      <input placeholder="Kommune" type="text" name="kommune" readonly />
 
-<section>
-	<h2>Oppslag postnummer</h2>
-	<input placeholder="Postnummer" type="number" name="postnummer">
-	<input placeholder="Kommune" type="text" name="kommune" readonly>
+      <p>
+        Disse oppslagene er basert på data-kildene hos
+        <a
+          href="https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer"
+          >bring.no</a
+        >
+        og blir ikke automatisk oppdatert. Sist oppdatering var 1.1.2020. Du kan
+        <a href="https://github.com/Tripletex/YesCommons"
+          >opprette en sak eller sende en pull</a
+        >
+        request hvis dataene er foreldet.
+      </p>
+    </section>
 
-	<p>
-		Disse oppslagene er basert på data-kildene hos
-		<a href="https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer">bring.no</a>
-		og blir ikke automatisk oppdatert. Sist oppdatering var 1.1.2020. Du kan
-		<a href="https://github.com/Tripletex/YesCommons">opprette en sak eller sende en pull</a>
-		request hvis dataene er foreldet.
-	</p>
-</section>
+    <footer>
+      Powered by <a href="https://tripletex.no">Tripletex</a>™️, inspired by
+      <a href="https://github.com/bekkopen/NoCommons">NoCommons</a>
+    </footer>
 
-<footer>
-	Powered by <a href="https://tripletex.no">Tripletex</a>™️, inspired by <a href="https://github.com/bekkopen/NoCommons">NoCommons</a>
-</footer>
-
-
-<script async src="dist/bundle.js"></script>
-</body>
+    <script async src="dist/bundle.js"></script>
+  </body>
 </html>

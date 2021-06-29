@@ -1,4 +1,10 @@
-import {luhn_step1, luhn_step2, luhn_step3_mod11, luhn_step4, luhn_step5_mod11} from "./modSteps";
+import {
+  luhn_step1,
+  luhn_step2,
+  luhn_step3_mod11,
+  luhn_step4,
+  luhn_step5_mod11,
+} from './modSteps'
 
 /**
  * @desc Algorithm is based on {@link https://en.wikipedia.org/wiki/Luhn_algorithm Luhn}, altered to be {@link https://no.wikipedia.org/wiki/MOD11 MOD11-based}.
@@ -18,14 +24,13 @@ import {luhn_step1, luhn_step2, luhn_step3_mod11, luhn_step4, luhn_step5_mod11} 
  * @date 2021-06-06
  */
 export const mod11 = (base: string, length: number): string => {
-    const step1: string = luhn_step1(base, length)
-    const step2: number[] = luhn_step2(step1)
-    const step3: number[] = luhn_step3_mod11(step2)
-    const step4: number = luhn_step4(step3)
-    const step5: string = luhn_step5_mod11(step4)
-    if (step5 === '-') // These are 'valid' based on the MOD11-algorithm, but generally not accepted in accounting.
-        return mod11(base, length)
-    return step1.concat(step5)
+  const step1: string = luhn_step1(base, length)
+  const step2: number[] = luhn_step2(step1)
+  const step3: number[] = luhn_step3_mod11(step2)
+  const step4: number = luhn_step4(step3)
+  const step5: string = luhn_step5_mod11(step4)
+  if (step5 === '-')
+    // These are 'valid' based on the MOD11-algorithm, but generally not accepted in accounting.
+    return mod11(base, length)
+  return step1.concat(step5)
 }
-
-

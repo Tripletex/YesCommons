@@ -1,143 +1,14 @@
-import {mod11} from '../lib/mod/mod11'
-import fnrTypeString from '../helpers/fnr/fnrTypeString'
-import {checkDatesWhenNotFnr, checkValidDateOfBirth, extractDate} from '../helpers/fnr/date';
-import {FNR_TYPES, K1_BASE, K2_BASE} from '../helpers/fnr/constants'
+import { FNR_LENGTH, Gender, ValidateFnrWrapper } from '../types/types'
+import { generateRandomBirthDate, isValidFnrBirthdate } from './birthdate'
 import {
-  ControlCiphers,
-  ControlCipherWrapper,
-  ErrorMessage,
-  ExtractedDate,
-  Gender,
-  ValidateFnrWrapper
-} from "../types/types";
-import {validateKid_mod11} from "./kid";
-
-/**
- * @param {number[]} initialDigits array of digits used for control cipher generation
- */
-function extractControlCiphers(initialDigits: number[]): ControlCiphers {
-  let digits = [...initialDigits];
-  const finalBase = mod11(digits.toString(), digits.length);
-  if (finalBase.includes('-')) {
-    return
-  }
-  digits = [...finalBase.split('').map(num => parseInt(num))]
-  const fnr = mod11(digits.toString(), digits.length);
-  if (fnr.includes('-')) {
-    return
-  }
-  const [,,,,,,,,,k1, k2] = fnr.split('').map(n => parseInt(n))
-  return { k1, k2, ciphers: initialDigits };
-}
-
-/**
- * 
- * @param {String} baseFnr The base social security number to generate ciphers
- */
-function generateControlCiphers(baseFnr: string): ControlCipherWrapper | ErrorMessage {
-  if (typeof baseFnr !== 'string') {
-    return {
-      success: false,
-      msg: 'Input must be a string'
-    }
-  }
-
-  if (baseFnr.trim().length !== 9) {
-    return {
-      success: false,
-      msg: 'baseFnr should only be 9 ciphers'
-    }
-  }
-
-  const base = baseFnr.trim().split('').map((num) => parseInt(num, 10));
-  const result = extractControlCiphers(base);
-  if (!result) {
-    return {
-      success: false,
-      msg: 'Fødselsnummer cannot contain a -'
-    }
-  }
-  const { k1, k2 } = result
-  if (k1 > 9 || k2 > 9) {
-    return {
-      success: false,
-      msg: 'control cipher(s) to large'
-    }
-  }
-  return {
-    success: true,
-    controlCiphers: `${k1}${k2}`,
-  }
-}
-
-/**
- * 
- * @param {String} fnr The social security number to check
- */
-export const isDnumber = (fnr: string): boolean => fnr.slice(0, 1) >= '4' && (fnr.slice(0, 1) < '7' || (fnr.slice(0, 1) === '7' && fnr.slice(1, 2) <= '1'));
-/**
- * 
- * @param {String} fnr The social security number to check
- */
-export const isHnumber = (fnr: string): boolean => (fnr.slice(2, 3) === '4' && fnr.slice(3, 4) >= '1') || (fnr.slice(2, 3) === '5' && fnr.slice(3, 4) <= '2');
-/**
- * 
- * @param {String} fnr The social security number to check
- */  
-export const isFHnumber = (fnr: string): boolean => fnr.slice(0, 1) >= '8';
-
-/**
- * 
- * @param {String} fnr The social security number to check
- * @param {String} fnrType string indicator of fnr
- */
-export function validateFnr(fnr: string, fnrType: FNR_TYPES): ValidateFnrWrapper | ErrorMessage {
-  if (typeof fnr !== 'string') {
-    return {
-      success: false,
-      msg: 'Input must be a string'
-    }
-  }
-
-  if (fnr.trim().length !== 11) {
-    return {
-      success: false,
-      msg: 'Fødselsnummer should only have 11 ciphers'
-    }
-  }
-
-  const fnrToCheck = fnr.trim();
-
-  // FH-numbers do not contain identity information, which makes it uneccesairy to check dates and stuff
-  // Only modulo calculation are valid in this case
-  if (fnrType === FNR_TYPES.fhnr) {
-    const result = checkDatesWhenNotFnr(fnrToCheck.slice(0, 2), fnrToCheck.slice(2,4), { fhnumber: isFHnumber(fnrToCheck) }) 
-    && validateKid_mod11(fnrToCheck.slice(0, 10))
-    && validateKid_mod11(fnrToCheck)
-    return {
-      success: result,
-      msg: !result ? `The ${fnrType} did not pass validation` : `This is a valid ${fnrType}!`,
-      fnr: fnrToCheck,
-      type: fnrType,
-      typeString: fnrTypeString(fnrType),
-    }
-  }
-  
-  const isValid = checkValidDateOfBirth({ fnr: fnrToCheck.slice(0, 9), fnrType })
-    && checkDatesWhenNotFnr(fnrToCheck.slice(0, 2), fnrToCheck.slice(2,4), { dnumber: isDnumber(fnrToCheck), hnumber: isHnumber(fnrToCheck) })
-  const result = isValid
-    && validateKid_mod11(fnrToCheck.slice(0, 10))
-    && validateKid_mod11(fnrToCheck)
-
-  return {
-    success: result,
-    msg: !result ? 'The fnr did not pass validation' : 'This is a valid fnr!',
-    fnr: fnrToCheck,
-    type: fnrType,
-    typeString: fnrTypeString(fnrType),
-    ...(result === true && parseFnr(fnr, fnrType))
-  }
-}
+  createValidateFnrReturnObject,
+  generateControlDigits,
+  generateRandomIndividualNumber,
+  getFnrBirthdayFromBirthdate,
+  isPossiblyDnumber,
+  isPossiblyFHnumber,
+  isPossiblyHnumber,
+} from '../lib/fnr/fnr'
 
 /**
  * A Norwegian FNR consists of 11 digits, where the first six digits is
@@ -152,107 +23,86 @@ export function validateFnr(fnr: string, fnrType: FNR_TYPES): ValidateFnrWrapper
  * @param gender The persons biological gender at birth.
  */
 export const generateFnr = (gender: Gender): string => {
-  const birthdate = generateRandomBirthDate();
+  const birthdate = generateRandomBirthDate()
+  const fnrBirthday = getFnrBirthdayFromBirthdate(birthdate)
   const individualNumber = generateRandomIndividualNumber(birthdate, gender)
-  return mod11(birthdate.concat(individualNumber), 11)
+  const partialFnr = fnrBirthday.concat(individualNumber)
+  const controlDigits = generateControlDigits(partialFnr)
+
+  if (controlDigits.length != 2) return generateFnr(gender)
+
+  return [fnrBirthday, individualNumber, controlDigits].join('')
 }
 
-const generateRandomIndividualNumber = (birthdate: string, gender: Gender): string => {
-  const year = parseInt(birthdate.slice(-4))
-  let randomIndividualNumber: number
+export const validateFnr = (fnr: string): ValidateFnrWrapper => {
+  try {
+    if (fnr.length != FNR_LENGTH)
+      return createValidateFnrReturnObject(
+        false,
+        `FNR has length ${fnr.length}, should be ${FNR_LENGTH}`,
+        fnr
+      )
+    const k1 = fnr.slice(-2)[0]
+    const k2 = fnr.slice(-1)
+    const partialFnr = fnr.slice(0, 9)
+    const birthdate = fnr.slice(0, 6)
+    const individualNumber = fnr.slice(6, 9)
 
-  if (isYearInRange(year, 2000, 2039)) {
-    randomIndividualNumber = generateRandomIntInRange(500, 1000)
-  } else if (isYearInRange(year, 1940, 1999)) {
-    randomIndividualNumber = generateRandomIntInRange(500, 1000)
-  } else if (isYearInRange(year, 1900, 1999)) {
-    randomIndividualNumber = generateRandomIntInRange(500, 1000)
-  } else if (isYearInRange(year, 1854, 1899)) {
-    randomIndividualNumber = generateRandomIntInRange(500, 1000)
-  } else {
-    throw new Error('Supplied parameter year does not contain a valid year.')
-  }
+    const dnumber = isPossiblyDnumber(fnr)
+    const hnumber = isPossiblyHnumber(fnr)
+    const fhnumber = isPossiblyFHnumber(fnr)
+    const validFnr = isValidFnrBirthdate(birthdate)
 
-  if (gender === Gender.male && randomIndividualNumber % 2) {
-    randomIndividualNumber++
-  } else if (gender === Gender.female && randomIndividualNumber % 2 === 1) {
-    randomIndividualNumber--
-  }
+    if (!validFnr && !dnumber && !hnumber && !fhnumber) {
+      return createValidateFnrReturnObject(
+        false,
+        `Invalid birthday ${birthdate}.`,
+        fnr
+      )
+    }
 
-  return randomIndividualNumber.toString()
+    const controlDigits = generateControlDigits(partialFnr)
+    if (controlDigits.length != 2)
+      return createValidateFnrReturnObject(
+        false,
+        `This is an invalid FNR; the individual ${individualNumber} number is wrong.`,
+        fnr
+      )
 
-}
+    if (k1 !== controlDigits[0] && k2 !== controlDigits[1])
+      return createValidateFnrReturnObject(
+        false,
+        `Invalid control digits k1 ${k1} and k2 ${k2}`,
+        fnr
+      )
+    if (k1 !== controlDigits[0])
+      return createValidateFnrReturnObject(
+        false,
+        `Invalid control digit k1 ${k1}`,
+        fnr
+      )
+    if (k2 !== controlDigits[1])
+      return createValidateFnrReturnObject(
+        false,
+        `Invalid control digit k2 ${k2}`,
+        fnr
+      )
 
-const isYearInRange = (year: number, fromInclusive: number, toInclusive: number): boolean => {
-  return fromInclusive <= year && year <= toInclusive
-}
+    let retTypes = []
+    if (validFnr) retTypes.push('FNR')
+    if (dnumber) retTypes.push('D-number')
+    if (hnumber) retTypes.push('H-number')
+    if (fhnumber) retTypes.push('FH-number')
 
-export const generateRandomBirthDate = (): string => {
-  const day = generateRandomIntInRange(1, 32)
-  const month = generateRandomIntInRange(1, 13)
-  const year = generateRandomIntInRange(1920, 2022)
-
-  return validateAndCreateBirthday(day, month, year);
-}
-
-const validateAndCreateBirthday = (day: number, month: number, year: number): string => {
-  if (month === 2) {
-    if (day > 28) (isLeapYear(year)) ? day = 29 : day = 28
-  }
-  if (isDayToBigForMonth) day = 30
-  return [day, month, year].join()
-}
-
-const isDayToBigForMonth = (day: number, month: number, year?: number): boolean => {
-  switch (month) {
-    case 1:
-    case 3:
-    case 5:
-    case 7:
-    case 8:
-    case 10:
-    case 12:
-      return day > 31
-    case 2:
-      return (year && isLeapYear(year)) ? day > 29 : day > 28
-    case 4:
-    case 6:
-    case 9:
-    case 11:
-      return day > 30
-    default:
-      return false
-  }
-}
-
-/**
- * Checks if the given year is a leap year.
- * Courtesy of <a href="https://stackoverflow.com/questions/16353211/check-if-year-is-leap-year-in-javascript">StackOverflow</a>.
- * @param year the year to check
- */
-const isLeapYear = (year: number): boolean => {
-  return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)
-}
-
-const generateRandomIntInRange = (inclusiveMin: number, exclusiveMax: number): number => {
-  inclusiveMin = Math.ceil(inclusiveMin);
-  exclusiveMax = Math.floor(exclusiveMax);
-  return Math.floor(Math.random() * (exclusiveMax - inclusiveMin + 1)) + inclusiveMin;
-}
-
-/**
- * 
- * @description This function should only be used when the fnr has passed the validation
- * @param {String} fnr the fødselsnummer (only the nine first ciphers are used) 
- * @param {String} fnrType string indicator of fnr
- */
-export function parseFnr(fnr: string, fnrType: string): ExtractedDate {
-  const { year, day, month, date, gender } = extractDate(fnr, fnrType)
-  return {
-    gender,
-    year,
-    day,
-    month,
-    date,
+    let retMsg =
+      `The FNR is valid as ${retTypes.length > 1 ? 'types' : 'type'} ` +
+      retTypes.join(', ')
+    return createValidateFnrReturnObject(true, retMsg, fnr)
+  } catch (err) {
+    return createValidateFnrReturnObject(
+      false,
+      'An error was thrown; ' + err,
+      fnr
+    )
   }
 }

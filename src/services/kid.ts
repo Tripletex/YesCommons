@@ -1,7 +1,12 @@
-import { MAX_KID_LENGTH, MIN_KID_LENGTH } from "../types/types";
-import { luhn_step2, luhn_step3_mod10, luhn_step3_mod11, luhn_step4 } from "../lib/mod/modSteps";
-import { mod11 } from "../lib/mod/mod11";
-import { mod10 } from "../lib/mod/mod10";
+import { MAX_KID_LENGTH, MIN_KID_LENGTH } from '../types/types'
+import {
+  luhn_step2,
+  luhn_step3_mod10,
+  luhn_step3_mod11,
+  luhn_step4,
+} from '../lib/mod/modSteps'
+import { mod11 } from '../lib/mod/mod11'
+import { mod10 } from '../lib/mod/mod10'
 
 // This file gave me a headache, so I re-wrote it.
 
@@ -52,17 +57,15 @@ export const generateKidMod11 = (base: string, length: number) => {
  * @date 2021-06-06
  */
 export const validateKid_mod10 = (kid: string): boolean => {
-  if (kid.length < MIN_KID_LENGTH || kid.length > MAX_KID_LENGTH)
-    return false
+  if (kid.length < MIN_KID_LENGTH || kid.length > MAX_KID_LENGTH) return false
 
   const controlDigit = +kid.slice(-1)
-  const restOfKid = kid.substring(0, kid.length - 1);
+  const restOfKid = kid.substring(0, kid.length - 1)
   const reversed = luhn_step2(restOfKid)
   const weighted = luhn_step3_mod10(reversed)
   const sum = luhn_step4(weighted)
   return 10 - (sum % 10) === controlDigit
 }
-
 
 /**
  * Checks if a kid is valid based on the MOD10-algorithm.
@@ -77,28 +80,28 @@ export const validateKid_mod10 = (kid: string): boolean => {
  * @date 2021-06-06
  */
 export const validateKid_mod11 = (kid: string): boolean => {
-  if (kid.length < MIN_KID_LENGTH || kid.length > MAX_KID_LENGTH)
-    return false
+  if (kid.length < MIN_KID_LENGTH || kid.length > MAX_KID_LENGTH) return false
 
   const controlDigit = kid.slice(-1)
-  const restOfKid = kid.substring(0, kid.length - 1);
+  const restOfKid = kid.substring(0, kid.length - 1)
   const reversed = luhn_step2(restOfKid)
   const weighted = luhn_step3_mod11(reversed)
   const sum = luhn_step4(weighted)
 
-  if (controlDigit === '-')
-    return 11 - (sum % 11) === 10
+  if (controlDigit === '-') return 11 - (sum % 11) === 10
   else if (controlDigit === '0') {
     return 11 - (sum % 11) === 11
-  }
-  else
-    return 11 - (sum % 11) === +controlDigit
+  } else return 11 - (sum % 11) === +controlDigit
 }
 
 const kidInputValidation = (base: string, length: number): void => {
   if (base.length >= length)
-    throw new Error('Base-length of kid cannot be greater than, or equal to, total length of kid.')
+    throw new Error(
+      'Base-length of kid cannot be greater than, or equal to, total length of kid.'
+    )
 
   if (length < MIN_KID_LENGTH || length > MAX_KID_LENGTH)
-    throw new Error(`Length of kid must be between ${MIN_KID_LENGTH} and ${MAX_KID_LENGTH}`)
+    throw new Error(
+      `Length of kid must be between ${MIN_KID_LENGTH} and ${MAX_KID_LENGTH}`
+    )
 }
