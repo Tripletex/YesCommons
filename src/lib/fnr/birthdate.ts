@@ -1,4 +1,4 @@
-import { generateRandomIntInRange } from '../lib/util/numberutil'
+import { generateRandomIntInRange } from '../util/numberutil'
 
 export const generateRandomBirthDate = (): string => {
   const day = generateRandomIntInRange(1, 31)

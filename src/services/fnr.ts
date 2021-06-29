@@ -1,5 +1,4 @@
 import { FNR_LENGTH, Gender, ValidateFnrWrapper } from '../types/types'
-import { generateRandomBirthDate, isValidFnrBirthdate } from './birthdate'
 import {
   createValidateFnrReturnObject,
   generateControlDigits,
@@ -9,6 +8,7 @@ import {
   isPossiblyFHnumber,
   isPossiblyHnumber,
 } from '../lib/fnr/fnr'
+import { generateRandomBirthDate, isValidFnrBirthdate } from '../lib/fnr/birthdate'
 
 /**
  * A Norwegian FNR consists of 11 digits, where the first six digits is

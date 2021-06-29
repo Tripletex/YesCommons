@@ -1,6 +1,6 @@
-import { isValidFnrBirthdate, isYearInRange } from '../../services/birthdate'
 import { Gender, ValidateFnrWrapper } from '../../types/types'
 import { generateRandomIntInRange } from '../util/numberutil'
+import { isValidFnrBirthdate, isYearInRange } from './birthdate'
 
 export const isPossiblyDnumber = (fnr: string): boolean => {
   const day = +fnr.slice(0, 2)
