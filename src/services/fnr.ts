@@ -1,4 +1,4 @@
-import { FNR_LENGTH, Gender, ValidateFnrWrapper } from '../types/types'
+import { FNR_LENGTH, FNRType, Gender, ValidateFnrWrapper } from '../types/types'
 import {
   createValidateFnrReturnObject,
   generateControlDigits,
@@ -9,6 +9,7 @@ import {
   isPossiblyHnumber,
 } from '../lib/fnr/fnr'
 import { generateRandomBirthDate, isValidFnrBirthdate } from '../lib/fnr/birthdate'
+import { generateRandomIntInRange } from '../lib/util/numberutil'
 
 /**
  * A Norwegian FNR consists of 11 digits, where the first six digits is
@@ -22,16 +23,93 @@ import { generateRandomBirthDate, isValidFnrBirthdate } from '../lib/fnr/birthda
  *
  * @param gender The persons biological gender at birth.
  */
-export const generateFnr = (gender: Gender): string => {
+export const generateStandardFnr = (gender: Gender): string => {
   const birthdate = generateRandomBirthDate()
   const fnrBirthday = getFnrBirthdayFromBirthdate(birthdate)
   const individualNumber = generateRandomIndividualNumber(birthdate, gender)
   const partialFnr = fnrBirthday.concat(individualNumber)
   const controlDigits = generateControlDigits(partialFnr)
 
-  if (controlDigits.length != 2) return generateFnr(gender)
+  if (controlDigits.length != 2) return generateStandardFnr(gender)
 
   return [fnrBirthday, individualNumber, controlDigits].join('')
+}
+
+export const generateFnr = (gender: Gender, type?: FNRType): string => {
+
+  let fnr;
+
+  switch (type) {
+    case FNRType.fnr:
+    case undefined:
+      fnr = generateStandardFnr(gender)
+      break
+    case FNRType.h:
+      fnr = generateHnumber(gender)
+      break
+    case FNRType.d:
+      fnr = generateDnumber(gender)
+      break
+    case FNRType.fh:
+      fnr = generateFHnumber()
+      break
+    default:
+      throw new Error('Invalid FNR-Type ' + type);
+  }
+
+  const validate = validateFnr(fnr)
+
+  if (validate.success) {
+    return fnr
+  }
+
+  console.log(validate)
+
+  throw new Error('Unable to generate valid ' + type)
+}
+
+/**
+ * A D-number is a standard FNR where the first digit has been
+ * incremented by 4.
+ *
+ * @param gender The biological gender of the person that shall receive this D-number.
+ */
+export const generateDnumber = (gender: Gender): string => {
+  const fnr = generateStandardFnr(gender)
+  const firstDigit = parseInt(fnr[0]) + 4
+  const base = firstDigit + fnr.slice(1,9)
+  const dnr = base + generateControlDigits(base)
+  if (dnr.length !== 11)
+    return generateDnumber(gender)
+  return dnr
+}
+
+/**
+ * A H-number is a standard FNR where the third digit has been
+ * incremented by 4.
+ *
+ * @param gender The biological gender of the person that shall receive this H-number.
+ */
+export const generateHnumber = (gender: Gender): string => {
+  const fnr = generateStandardFnr(gender)
+  const thirdDigit = parseInt(fnr[2]) + 4
+  const base = fnr.slice(0,2) + thirdDigit + fnr.slice(3, 9)
+  const hnr = base + generateControlDigits(base)
+  if (hnr.length !== 11)
+    return generateHnumber(gender)
+  return hnr
+}
+
+/**
+ * A FH-number is a random sequence of digits where the
+ * first digit is either 8 or 9.
+ */
+export const generateFHnumber = (): string => {
+  const base = generateRandomIntInRange(8000, 9999).toString() + generateRandomIntInRange(10000,99999)
+  const fhnr = base + generateControlDigits(base)
+  if (fhnr.length !== 11)
+    return generateFHnumber()
+  return fhnr
 }
 
 export const validateFnr = (fnr: string): ValidateFnrWrapper => {

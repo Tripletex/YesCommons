@@ -3,14 +3,14 @@ import { generateRandomIntInRange } from '../util/numberutil'
 import { isValidFnrBirthdate, isYearInRange } from './birthdate'
 
 export const isPossiblyDnumber = (fnr: string): boolean => {
-  const day = +fnr.slice(0, 2)
-  const birthdate = day - 40 + fnr.slice(2, 6)
+  const day = +fnr[0]
+  const birthdate = day - 4 + fnr.slice(1, 6)
   return isValidFnrBirthdate(birthdate)
 }
 
 export const isPossiblyHnumber = (fnr: string): boolean => {
-  const month = +fnr.slice(2, 4)
-  const birthdate = fnr.slice(0, 2) + (month - 40) + fnr.slice(4, 6)
+  const month = +fnr[2]
+  const birthdate = fnr.slice(0, 2) + (month - 4) + fnr.slice(3, 6)
   return isValidFnrBirthdate(birthdate)
 }
 

@@ -49,7 +49,8 @@ function newKidNr() {
 function newFnr() {
   const fnrSpan = document.querySelector('.js-fnr')
   const fnrType = document.querySelector('select#fnr_type').value
-  const fnr = generateFnr(Gender.male)
+  const gender = document.querySelector('select#gender').value
+  const fnr = generateFnr(gender, fnrType)
   fnrSpan.innerText = fnr
 }
 

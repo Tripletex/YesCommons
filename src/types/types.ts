@@ -1,7 +1,3 @@
-export interface StringMap {
-  [key: string]: string
-}
-
 export const MIN_KID_LENGTH = 2
 export const MAX_KID_LENGTH = 25
 export const FNR_LENGTH = 11
@@ -10,6 +6,13 @@ export type ValidateFnrWrapper = {
   success: boolean
   msg: string
   fnr: string
+}
+
+export enum FNRType {
+  fnr = 'fnr',
+  d = 'dnr',
+  h = 'hnr',
+  fh = 'fhnr'
 }
 
 export enum Gender {

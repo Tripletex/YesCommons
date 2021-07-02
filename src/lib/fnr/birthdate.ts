@@ -58,7 +58,7 @@ export const isDayToBigForMonth = (
     case 11:
       return day > 30
     default:
-      throw new Error('Invalid year')
+      throw new Error('Invalid month ' + month)
   }
 }
 
