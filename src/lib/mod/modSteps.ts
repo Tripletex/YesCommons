@@ -55,6 +55,7 @@ export const luhn_step4 = (digits: number[]): number => {
 export const luhn_step5_mod10 = (n: number): string => {
   const overflow = n % 10
   const fix = 10 - overflow
+  if (fix == 10) return '0'
   return fix.toString()
 }
 

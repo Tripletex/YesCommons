@@ -63,8 +63,6 @@ export const generateFnr = (gender: Gender, type?: FNRType): string => {
     return fnr
   }
 
-  console.log(validate)
-
   throw new Error('Unable to generate valid ' + type)
 }
 

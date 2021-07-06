@@ -1,8 +1,13 @@
 const path = require('path')
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 
 module.exports = {
   entry: './src/app.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
   module: {
     rules: [
       {
@@ -16,14 +21,20 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
   plugins: [
     new MomentLocalesPlugin({
       localesToKeep: ['es-us', 'nb-no'],
     }),
+    new HtmlWebpackPlugin({
+      template: "./index.html"
+    })
   ],
   devtool: 'source-map',
+  devServer: {
+    stats: {
+      children: false, // Hide children information
+      maxModules: 0 // Set the maximum number of modules to be shown
+    },
+    port: 3001
+  },
 }

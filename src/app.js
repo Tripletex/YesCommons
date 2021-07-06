@@ -11,7 +11,7 @@ import {
   validateKid_mod11,
 } from './services/kid'
 import { generateFnr, validateFnr } from './services/fnr'
-import { Gender, MAX_KID_LENGTH, MIN_KID_LENGTH, Modulo } from './types/types'
+import { MAX_KID_LENGTH, MIN_KID_LENGTH, Modulo } from './types/types'
 
 function newKidNr() {
   try {
@@ -50,8 +50,7 @@ function newFnr() {
   const fnrSpan = document.querySelector('.js-fnr')
   const fnrType = document.querySelector('select#fnr_type').value
   const gender = document.querySelector('select#gender').value
-  const fnr = generateFnr(gender, fnrType)
-  fnrSpan.innerText = fnr
+  fnrSpan.innerText = generateFnr(gender, fnrType)
 }
 
 function newOrgNr() {
@@ -60,18 +59,17 @@ function newOrgNr() {
 }
 
 function newKontoNr() {
-  const kontoNummer = generateAccountNumber()
-  document.querySelector('.js-kontonr').innerText = kontoNummer
+  document.querySelector('.js-kontonr').innerText = generateAccountNumber()
 }
 
 function validateKontoNr(e) {
   e.preventDefault()
-  const accountNumberInput = document.querySelector('input#accountNumber')
+  const accountNumberInput = document.querySelector('#accountnumber')
   const resultSpan = document.querySelector('span#accont_validation_result')
-  const initialAccountNumber = '' + accountNumberInput.value
+  const initialAccountNumber = accountNumberInput.value
   const accountNumber = accountNumberInput.value.replace(/\s+/g, '')
   if (accountNumber.length !== 11) {
-    resultSpan.textContent = 'Et gyldig norsk kontonummer har kun 11 siffer'
+    resultSpan.textContent = 'Et gyldig norsk kontonummer har nøyaktig 11 siffer'
     accountNumberInput.value = ''
     return
   }

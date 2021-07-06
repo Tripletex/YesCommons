@@ -7,15 +7,22 @@
     "start": "webpack-dev-server --open",
     "watch": "webpack --watch",
     "build": "webpack",
-    "start:dev": "webpack-dev-server"
+    "start:dev": "webpack-dev-server --mode development --hot --open"
   },
   "keywords": [
     "accounting",
-    "erp"
+    "erp",
+    "economics",
+    "tools",
+    "kid",
+    "account number",
+    "mod11",
+    "mod10"
   ],
   "author": "Tripletex AS",
   "license": "MIT",
   "devDependencies": {
+    "html-webpack-plugin": "^5.3.2",
     "node-fetch": "^2.6.1",
     "prettier": "^2.3.2",
     "webpack": "^5.38.1",
