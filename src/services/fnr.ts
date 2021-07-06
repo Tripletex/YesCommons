@@ -8,7 +8,10 @@ import {
   isPossiblyFHnumber,
   isPossiblyHnumber,
 } from '../lib/fnr/fnr'
-import { generateRandomBirthDate, isValidFnrBirthdate } from '../lib/fnr/birthdate'
+import {
+  generateRandomBirthDate,
+  isValidFnrBirthdate,
+} from '../lib/fnr/birthdate'
 import { generateRandomIntInRange } from '../lib/util/numberutil'
 
 /**
@@ -36,8 +39,7 @@ export const generateStandardFnr = (gender: Gender): string => {
 }
 
 export const generateFnr = (gender: Gender, type?: FNRType): string => {
-
-  let fnr;
+  let fnr
 
   switch (type) {
     case FNRType.fnr:
@@ -54,7 +56,7 @@ export const generateFnr = (gender: Gender, type?: FNRType): string => {
       fnr = generateFHnumber()
       break
     default:
-      throw new Error('Invalid FNR-Type ' + type);
+      throw new Error('Invalid FNR-Type ' + type)
   }
 
   const validate = validateFnr(fnr)
@@ -75,10 +77,9 @@ export const generateFnr = (gender: Gender, type?: FNRType): string => {
 export const generateDnumber = (gender: Gender): string => {
   const fnr = generateStandardFnr(gender)
   const firstDigit = parseInt(fnr[0]) + 4
-  const base = firstDigit + fnr.slice(1,9)
+  const base = firstDigit + fnr.slice(1, 9)
   const dnr = base + generateControlDigits(base)
-  if (dnr.length !== 11)
-    return generateDnumber(gender)
+  if (dnr.length !== 11) return generateDnumber(gender)
   return dnr
 }
 
@@ -91,10 +92,9 @@ export const generateDnumber = (gender: Gender): string => {
 export const generateHnumber = (gender: Gender): string => {
   const fnr = generateStandardFnr(gender)
   const thirdDigit = parseInt(fnr[2]) + 4
-  const base = fnr.slice(0,2) + thirdDigit + fnr.slice(3, 9)
+  const base = fnr.slice(0, 2) + thirdDigit + fnr.slice(3, 9)
   const hnr = base + generateControlDigits(base)
-  if (hnr.length !== 11)
-    return generateHnumber(gender)
+  if (hnr.length !== 11) return generateHnumber(gender)
   return hnr
 }
 
@@ -103,10 +103,11 @@ export const generateHnumber = (gender: Gender): string => {
  * first digit is either 8 or 9.
  */
 export const generateFHnumber = (): string => {
-  const base = generateRandomIntInRange(8000, 9999).toString() + generateRandomIntInRange(10000,99999)
+  const base =
+    generateRandomIntInRange(8000, 9999).toString() +
+    generateRandomIntInRange(10000, 99999)
   const fhnr = base + generateControlDigits(base)
-  if (fhnr.length !== 11)
-    return generateFHnumber()
+  if (fhnr.length !== 11) return generateFHnumber()
   return fhnr
 }
 

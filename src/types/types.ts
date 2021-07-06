@@ -12,7 +12,7 @@ export enum FNRType {
   fnr = 'fnr',
   d = 'dnr',
   h = 'hnr',
-  fh = 'fhnr'
+  fh = 'fhnr',
 }
 
 export enum Gender {
