@@ -71,7 +71,9 @@ function validateKontoNr(e) {
     resultSpan.textContent = `${initialAccountNumber} er et ${
         isValidAccountNumber ? "gyldig" : "ugyldig"
     } kontonummer. ${
-        registryEntry ? `kontonummeret tilhører ${registryEntry.bank}` : ""
+        registryEntry
+            ? `kontonummeret tilhører ${registryEntry.bank} med SWIFT-kode ${registryEntry.bic}`
+            : ""
     }`;
     accountNumberInput.value = "";
 }
