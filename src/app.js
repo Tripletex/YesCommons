@@ -1,5 +1,9 @@
 import orgnr from "./services/orgnr";
-import { generateAccountNumber, validateAccountNumber } from "./services/kontonr";
+import {
+    generateAccountNumber,
+    getBankRegistryEntryByAccountNumber,
+    validateAccountNumber,
+} from "./services/kontonr";
 import postnummer from "./services/postal";
 import { generateKid, validateKid } from "./services/kid";
 import { generateFnr, validateFnr } from "./services/fnr";
@@ -61,9 +65,14 @@ function validateKontoNr(e) {
         return;
     }
     const isValidAccountNumber = validateAccountNumber(accountNumber);
+    const registryEntry = isValidAccountNumber
+        ? getBankRegistryEntryByAccountNumber(accountNumber)
+        : null;
     resultSpan.textContent = `${initialAccountNumber} er et ${
         isValidAccountNumber ? "gyldig" : "ugyldig"
-    } kontonummer.`;
+    } kontonummer. ${
+        registryEntry ? `kontonummeret tilhører ${registryEntry.bank}` : ""
+    }`;
     accountNumberInput.value = "";
 }
 
