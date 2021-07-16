@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open",
     "watch": "webpack --watch",
-    "build": "webpack"
+    "build": "webpack",
+    "download-bankregistry": "curl -o bank.xlsx https://www.bits.no/document/iban/ && node bankregisterdownloader.js"
   },
   "keywords": [
     "accounting",
@@ -19,7 +20,8 @@
     "node-fetch": "^2.6.1",
     "webpack": "^5.44.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "xlsx": "^0.17.0"
   },
   "dependencies": {
     "moment": "^2.27.0"
