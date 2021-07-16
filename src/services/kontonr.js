@@ -2,6 +2,11 @@ import { mod11_generate, mod11_validate } from "../lib/mod/mod11";
 import gen from "../helpers/gen";
 import bankRegistry from "../../bankregistry.json";
 
+function getRandomRegistryNumber() {
+    const registryEntry = bankRegistry[Math.floor(Math.random() * bankRegistry.length)];
+    return registryEntry["Bank identifier"];
+}
+
 /**
  * @returns {{
  *    number: string
@@ -10,7 +15,7 @@ import bankRegistry from "../../bankregistry.json";
  *    registryNumber: string
  * }} The calculated accountNumber as a string
  */
-export function generateAccountNumber(registryNumber) {
+export function generateAccountNumber(registryNumber = getRandomRegistryNumber()) {
     const registryNumberEntriesAsNumber = registryNumber
         .split("")
         .map((n) => parseInt(n));
