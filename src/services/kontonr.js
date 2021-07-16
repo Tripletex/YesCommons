@@ -26,16 +26,35 @@ export function generateAccountNumber(registryNumber = getRandomRegistryNumber()
     if (accountNumber[accountNumber.length - 1] === "-") {
         return generateAccountNumber(registryNumber);
     }
-    const bankRegisterNumber = accountNumber.slice(0, 4);
-    const registryEntry = bankRegistry.find(
-        (registry) => registry["Bank identifier"] === bankRegisterNumber
-    );
+    const registryEntry = getBankRegistryEntryByAccountNumber(accountNumber);
     return {
         number: accountNumber,
         bic: registryEntry.BIC,
         bank: registryEntry.Bank,
         registryNumber: registryEntry["Bank identifier"],
     };
+}
+
+/**
+ * Takes in the account numer and returns which bank the given accountNumber belongs to
+ *
+ * @param accountNumber {string} the account number
+ *
+ * @returns {{
+ *    bic: string
+ *    bank: string
+ *    registryNumber: string
+ * }} The registry entry
+ */
+export function getBankRegistryEntryByAccountNumber(accountNumber) {
+    const registryNumber = getRegistryNumber(accountNumber);
+    return bankRegistry.find(
+        (registry) => registry["Bank identifier"] === registryNumber
+    );
+}
+
+function getRegistryNumber(accountNumber) {
+    return accountNumber.slice(0, 4);
 }
 
 /**
