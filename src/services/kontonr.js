@@ -48,9 +48,21 @@ export function generateAccountNumber(registryNumber = getRandomRegistryNumber()
  */
 export function getBankRegistryEntryByAccountNumber(accountNumber) {
     const registryNumber = getRegistryNumber(accountNumber);
-    return bankRegistry.find(
+    const registryEntry = bankRegistry.find(
         (registry) => registry["Bank identifier"] === registryNumber
     );
+    if (!registryEntry) {
+        return {
+            bank: "Ukjent",
+            bic: "N/A",
+            registryNumber,
+        };
+    }
+    return {
+        bank: registryEntry.Bank,
+        bic: registryEntry.BIC,
+        registryNumber: registryEntry["Bank identifier"],
+    };
 }
 
 function getRegistryNumber(accountNumber) {
