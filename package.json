@@ -8,23 +8,37 @@
     "start": "webpack-dev-server --open",
     "watch": "webpack --watch",
     "build": "webpack",
-    "download-bankregistry": "curl -o bank.xlsx https://www.bits.no/document/iban/ && node bankregisterdownloader.js"
+    "download-bankregistry": "curl -o bank.xlsx https://www.bits.no/document/iban/ && node bankregisterdownloader.js",
+    "start:dev": "webpack-dev-server --mode development --hot --open",
+    "prettier": "prettier --write \"**/*.ts\""
   },
   "keywords": [
     "accounting",
-    "erp"
+    "erp",
+    "economics",
+    "tools",
+    "kid",
+    "account number",
+    "mod11",
+    "mod10"
   ],
   "author": "Tripletex AS",
   "license": "MIT",
   "devDependencies": {
+    "html-webpack-plugin": "^5.3.2",
     "moment-locales-webpack-plugin": "^1.2.0",
     "node-fetch": "^2.6.1",
-    "webpack": "^5.44.0",
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.5",
+    "webpack": "^5.38.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^3.11.2",
     "xlsx": "^0.17.0"
   },
   "dependencies": {
-    "moment": "^2.27.0"
+    "moment": "^2.27.0",
+    "moment-locales-webpack-plugin": "^1.2.0",
+    "source-map-loader": "^3.0.0",
+    "ts-loader": "^9.2.2"
   }
 }

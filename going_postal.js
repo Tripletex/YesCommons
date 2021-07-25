@@ -35,7 +35,7 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 	.then(response => {
 		if(!response.ok) {
 			throw new Error('Problems during download of CSV file for postal codes, update URL?')
-		} 
+		}
 		return response.blob()
 	})
 	.then(fileBlob => {
@@ -49,33 +49,33 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 		let buf = []
 		// For picking number straight out from an array
 		let singleBuf = []
-	
+
 		// Using if and or for representing a place
 		let postalIfMapping = {}
-	
+
 		let lastPlace
-	
-		/* 
+
+		/*
 		* I postfix the key name (place) with an index number. This is because the same
 		* name doesn't have to occur sequentially in the list. When creating the if
 		* sentences, MIN and MAX numbers should be in a sequence, without other places
 		* in between ....
 		*/
 		let index = 0
-	
+
 		fileData.split('\n').forEach(line => {
 			let l = line.split('\t')
 			let number = l[0]
 			let place = l[1]
 			if(!place) return // Last empty line
-	
+
 			if(lastPlace && lastPlace !== place) index++;
-	
+
 			places[place + '_' + index] = places[place + '_' + index] || []
 			places[place + '_' + index].push(number)
 			lastPlace = place
 		})
-	
+
 		/**
 		 * How much space would it take to represent this place with an if?
 		 * The if takes 33 characters plus the length of the postal place name.
@@ -97,7 +97,7 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 		function sizeWithIf(C, L) {
 			return 32 + L
 		}
-	
+
 		/**
 		 * How much space would it take to represent this place with object mapping?
 		 * For each postal number C, we need 13 characters plus the name of the place.
@@ -117,17 +117,17 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 		function sizeWithObject(C, L) {
 			return (8 + L) * C;
 		}
-	
+
 		Object.keys(places).forEach(place => {
 			let numbers = places[place].sort();
-	
+
 			let name = place.split('_')[0]
-	
+
 			// length of character name of postal place
 			let l = name.length
 			// how many postal numbers this place has in this sequence
 			let c = numbers.length
-	
+
 			/*
 			Should compress the list even more, taking into account that places might
 			have postal numbers scattered around in the list. But somehow this makes
@@ -145,7 +145,7 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 
 				return tmp
 			})()*/
-	
+
 			if(sizeWithIf(c, l) > sizeWithObject(c, l)) {
 				// Represent postal place sequence in a map, because this is the shortest
 				// representation.
@@ -157,14 +157,14 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 				// representation
 				let MIN = parseInt(numbers[0])
 				let MAX = parseInt(numbers[numbers.length - 1])
-	
+
 				postalIfMapping[name] = postalIfMapping[name] || []
 				postalIfMapping[name].push({MIN, MAX})
 			}
 		})
-	
+
 		buf.push('export default function postnummer(E) {')
-	
+
 		// Create possible OR statements if the postal place has several sequences
 		Object.keys(postalIfMapping).forEach(place => {
 			var exp = []
@@ -173,12 +173,12 @@ fetch('https://www.bring.no/radgivning/sende-noe/adressetjenester/postnummer/_/a
 			})
 			buf.push('if(' + exp.join('||') + ')return "' + place + '";')
 		})
-	
+
 		// The final map of postal number => postal place
 		buf.push('return ({' + singleBuf.join(',') + '})[E];')
-	
+
 		buf.push('}')
-	
+
 		fs.writeFile('./src/postal.js', buf.join(''), 'UTF-8', () => {})
 	})
 	.catch(console.error)
