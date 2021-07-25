@@ -29,8 +29,5 @@ export const mod11 = (base: string, length: number): string => {
   const step3: number[] = luhn_step3_mod11(step2)
   const step4: number = luhn_step4(step3)
   const step5: string = luhn_step5_mod11(step4)
-  if (step5 === '-')
-    // These are 'valid' based on the MOD11-algorithm, but generally not accepted in accounting.
-    return mod11(base, length)
   return step1.concat(step5)
 }
