@@ -10875,6 +10875,16 @@
     "Bank": "Bank Norwegian"
   },
   {
+    "Bank identifier": "9357",
+    "BIC": "NORWNOK1",
+    "Bank": "Bank Norwegian AS"
+  },
+  {
+    "Bank identifier": "9358",
+    "BIC": "NORWNOK1",
+    "Bank": "Bank Norwegian AS"
+  },
+  {
     "Bank identifier": "9364",
     "BIC": "LANDNOK1",
     "Bank": "Landkreditt Bank AS"
