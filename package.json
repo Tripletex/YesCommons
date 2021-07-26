@@ -1,6 +1,6 @@
 {
   "name": "yescommons",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Common tools needed for developing and testing accounting systems in Norway",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
