@@ -9,8 +9,7 @@
     "watch": "webpack --watch",
     "build": "webpack",
     "download-bankregistry": "curl -o bank.xlsx https://www.bits.no/document/iban/ && node bankregisterdownloader.js",
-    "deploy": "np",
-    "postdeploy": "npm install && bs --no-yarn --hook build"
+    "deploy": "np"
   },
   "keywords": [
     "accounting",
@@ -23,7 +22,6 @@
   "author": "Tripletex AS",
   "license": "MIT",
   "devDependencies": {
-    "branchsite": "^4.0.3",
     "moment-locales-webpack-plugin": "^1.2.0",
     "node-fetch": "^2.6.1",
     "np": "^7.5.0",
@@ -38,8 +36,5 @@
   "np": {
     "yarn": false,
     "tests": false
-  },
-  "files": [
-    "*"
-  ]
+  }
 }
