@@ -10,7 +10,7 @@
     "build": "webpack",
     "download-bankregistry": "curl -o bank.xlsx https://www.bits.no/document/iban/ && node bankregisterdownloader.js",
     "deploy": "np",
-    "postdeploy": "bs --no-yarn --hook build"
+    "postdeploy": "npm install && bs --no-yarn --hook build"
   },
   "keywords": [
     "accounting",
