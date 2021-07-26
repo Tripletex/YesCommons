@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Common tools needed for developing and testing accounting systems in Norway",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "prestart": "npm run download-bankregistry",
     "start": "webpack-dev-server --open",
     "watch": "webpack --watch",
@@ -33,7 +33,8 @@
   },
   "np": {
     "yarn": false,
-    "contents": "build"
+    "contents": "build",
+    "tests": false
   },
   "files": [
     "*"
