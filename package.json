@@ -1,5 +1,5 @@
 {
-  "name": "yescommons",
+  "name": "@tripletex/yescommons",
   "version": "1.6.0",
   "description": "Common tools needed for developing and testing accounting systems in Norway",
   "scripts": {
@@ -15,6 +15,10 @@
     "accounting",
     "erp"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tripletex/YesCommons"
+  },
   "publishConfig": {
     "access": "public"
   },
