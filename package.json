@@ -16,6 +16,10 @@
     "accounting",
     "erp"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "publisher": "Tripletex",
   "author": "Tripletex AS",
   "license": "MIT",
   "devDependencies": {
