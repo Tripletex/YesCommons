@@ -33,7 +33,6 @@
   },
   "np": {
     "yarn": false,
-    "contents": "build",
     "tests": false
   },
   "files": [
