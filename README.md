@@ -22,7 +22,7 @@ Pull requests are welcomed!
 Currently, the project provides tools to:
 
 - Generate "Organisasjonsnummer"
-- Generate "Bankkontonummer"
+- Generate "Bankkontonummer" - using the bank register registry
 - Generate "KID-nummer"
 - Generate "Fødselsnummer"
 - Validate "Bankkontonummer"
