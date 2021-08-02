@@ -72,7 +72,22 @@
       <p>
         <span class="js-kontonr"></span>
       </p>
-
+      <select name="bankregistry-list" id="bankregistry">
+        Bankliste
+      </select>
+      <script>
+        fetch('bankregistry.json')
+          .then(file => file.json())
+          .then(bankRegistry => {
+            const bankRegistrySelect = document.getElementById('bankregistry');
+            for (const registry of bankRegistry) {
+              const option = document.createElement('option')
+              option.value = registry['Bank identifier']
+              option.textContent = `${registry['Bank identifier']} - ${registry.Bank}`
+              bankRegistrySelect.append(option)
+            }
+          })
+      </script>
       <button class="js-gen-kontonr">Generer</button>
 
       <p>

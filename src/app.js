@@ -2,6 +2,7 @@ import orgnr from './services/orgnr'
 import {
   generateAccountNumber,
   validateAccountNumber,
+  getBankRegistryEntryByAccountNumber,
 } from './services/kontonr'
 import postnummer from './services/postal'
 import {
@@ -59,24 +60,35 @@ function newOrgNr() {
 }
 
 function newKontoNr() {
-  document.querySelector('.js-kontonr').innerText = generateAccountNumber()
+  const bankRegistrySelect = document.getElementById('bankregistry')
+  const selectedRegistryNumber =
+    bankRegistrySelect.options[bankRegistrySelect.options.selectedIndex].value
+  const { number } = generateAccountNumber(selectedRegistryNumber)
+  document.querySelector('.js-kontonr').innerText = number
 }
 
 function validateKontoNr(e) {
   e.preventDefault()
-  const accountNumberInput = document.querySelector('#accountnumber')
+  const accountNumberInput = document.querySelector('input#accountnumber')
   const resultSpan = document.querySelector('span#accont_validation_result')
-  const initialAccountNumber = accountNumberInput.value
+  const initialAccountNumber = '' + accountNumberInput.value
   const accountNumber = accountNumberInput.value.replace(/\s+/g, '')
   if (accountNumber.length !== 11) {
-    resultSpan.textContent = 'Et gyldig norsk kontonummer har nøyaktig 11 siffer'
+    resultSpan.textContent = 'Et gyldig norsk kontonummer har kun 11 siffer'
     accountNumberInput.value = ''
     return
   }
   const isValidAccountNumber = validateAccountNumber(accountNumber)
+  const registryEntry = isValidAccountNumber
+    ? getBankRegistryEntryByAccountNumber(accountNumber)
+    : null
   resultSpan.textContent = `${initialAccountNumber} er et ${
     isValidAccountNumber ? 'gyldig' : 'ugyldig'
-  } kontonummer.`
+  } kontonummer. ${
+    registryEntry
+      ? `kontonummeret tilhører ${registryEntry.bank} med SWIFT-kode ${registryEntry.bic}`
+      : ''
+  }`
   accountNumberInput.value = ''
 }
 
@@ -132,7 +144,6 @@ function queryPostal(e) {
 }
 
 newOrgNr()
-newKontoNr()
 newFnr()
 
 document.querySelector('.js-gen-orgnr').addEventListener('click', newOrgNr)
