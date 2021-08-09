@@ -1,9 +1,10 @@
 import { generateDnumber } from '../../../main/services/fnr'
+import { validateFnr } from '../../../main/services/fnr'
+import { isPossiblyDnumber } from '../../../main/lib/fnr/fnr'
+
 import { Gender } from '../../../main/types/types'
 
-const validateFnr = require('../../../main/services/fnr').validateFnr
-const fnr = require('../../../main/lib/fnr/fnr')
-const assert = require('chai').assert
+import { assert } from 'chai'
 
 const validDnumbers: string[] = [
   '53075114482',
@@ -38,7 +39,7 @@ describe('Testing D-numbers', () => {
 
     it('Validate Possible D-numbers', () => {
       validDnumbers.forEach((dNumber) => {
-        assert.equal(fnr.isPossiblyDnumber(dNumber), true, dNumber)
+        assert.equal(isPossiblyDnumber(dNumber), true, dNumber)
       })
     })
   })
@@ -52,7 +53,7 @@ describe('Testing D-numbers', () => {
 
     it('Invalidate Possible D-numbers', () => {
       invalidDnumbers.forEach((dNumber) => {
-        assert.equal(fnr.isPossiblyDnumber(dNumber), false, dNumber)
+        assert.equal(isPossiblyDnumber(dNumber), false, dNumber)
       })
     })
   })
@@ -74,5 +75,3 @@ describe('Testing D-numbers', () => {
     })
   })
 })
-
-
