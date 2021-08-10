@@ -46,10 +46,10 @@ describe('Testing Birthdays', () => {
 })
 
 describe('Validate and Create Birthdays', () => {
-  it('#validateAndCreateBirthday', () => {
+  it('#validateAndCreateBirthday February date too high, leap year', () => {
     assert.equal(validateAndCreateBirthday(30, 2, 88), '290288')
   })
-  it('#validateAndCreateBirthday', () => {
+  it('#validateAndCreateBirthday, February date too high, not leap year', () => {
     assert.equal(validateAndCreateBirthday(30, 2, 89), '280289')
   })
 })
