@@ -3,7 +3,7 @@
   "version": "1.6.0",
   "description": "Common tools needed for developing and testing accounting systems in Norway",
   "scripts": {
-    "test": "env TS_NODE_PROJECT=\"tsconfig.test.json\" mocha --require ts-node/register 'src/test/**/*.ts'",
+    "test": "env TS_NODE_PROJECT=\"tsconfig.test.json\" mocha --require ts-node/register 'src/test/**/*.test.ts'",
     "prestart": "npm run download-bankregistry",
     "start": "webpack-dev-server --open",
     "watch": "webpack --watch",
