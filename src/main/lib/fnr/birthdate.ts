@@ -27,8 +27,7 @@ export const validateAndCreateBirthday = (
 ): string => {
   if (month === 2) {
     if (day > 28) isLeapYear(year) ? (day = 29) : (day = 28)
-  }
-  if (isDayToBigForMonth(day, month)) day = 30
+  } else if (isDayToBigForMonth(day, month)) day = 30
   return [
     day < 10 ? '0' + day : day,
     month < 10 ? '0' + month : month,

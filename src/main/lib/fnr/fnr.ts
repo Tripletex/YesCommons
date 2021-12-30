@@ -1,4 +1,4 @@
-import { Gender, ValidateFnrWrapper } from '../../types/types'
+import { FNRType, Gender, ValidateFnrWrapper } from '../../types/types'
 import { generateRandomIntInRange } from '../util/numberutil'
 import { isValidFnrBirthdate, isYearInRange } from './birthdate'
 
@@ -21,9 +21,10 @@ export const isPossiblyFHnumber = (fnr: string): boolean => {
 export const createValidateFnrReturnObject = (
   success: boolean,
   msg: string,
-  fnr: string
+  fnr: string,
+  types: FNRType[] = []
 ): ValidateFnrWrapper => {
-  return { success, msg, fnr }
+  return { success, msg, fnr, types }
 }
 
 export const generateControlDigits = (partialFnr: string): string => {

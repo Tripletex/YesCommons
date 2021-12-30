@@ -1,6 +1,6 @@
 import { mod11 } from '../lib/mod/mod11'
 import { validateKid_mod11 } from './kid'
-import bankRegistry from '../../bankregistry.json'
+import bankRegistry from '../../../bankregistry.json'
 
 export function generateAccountNumber(
   registryNumber = getRandomRegistryNumber()

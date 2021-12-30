@@ -6,6 +6,7 @@ export type ValidateFnrWrapper = {
   success: boolean
   msg: string
   fnr: string
+  types: FNRType[]
 }
 
 export enum FNRType {

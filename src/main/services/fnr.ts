@@ -174,7 +174,7 @@ export const validateFnr = (fnr: string): ValidateFnrWrapper => {
     let retMsg =
       `The FNR is valid as ${retTypes.length > 1 ? 'types' : 'type'} ` +
       retTypes.join(', ')
-    return createValidateFnrReturnObject(true, retMsg, fnr)
+    return createValidateFnrReturnObject(true, retMsg, fnr, retTypes)
   } catch (err) {
     return createValidateFnrReturnObject(
       false,

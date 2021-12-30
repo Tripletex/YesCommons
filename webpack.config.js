@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 
 module.exports = {
-  entry: './src/app.js',
+  entry: './src/main/app.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
