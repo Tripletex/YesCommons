@@ -68,7 +68,7 @@ export const validateKid_mod10 = (kid: string): boolean => {
 }
 
 /**
- * Checks if a kid is valid based on the MOD10-algorithm.
+ * Checks if a kid is valid based on the MOD11-algorithm.
  * It works similarly to {@link mod11}; except instead of calculating
  * the control digit and appending it, the control digit is calculated
  * and checked to be equal to the control digit in the kid.
