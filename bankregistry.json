@@ -11483,5 +11483,10 @@
     "Bank identifier": "9903",
     "BIC": "YABANOK1",
     "Bank": "Resurs Bank AB NUF"
+  },
+  {
+    "Bank identifier": "9666",
+    "BIC": "PRBONO22",
+    "Bank": "Boligbanken ASA"
   }
 ]
