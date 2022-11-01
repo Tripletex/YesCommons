@@ -83,7 +83,7 @@
             for (const registry of bankRegistry) {
               const option = document.createElement('option')
               option.value = registry['Bank identifier']
-              option.textContent = `${registry['Bank identifier']} - ${registry.Bank}`
+              option.textContent = `${registry.Bank} - ${registry['Bank identifier']}`
               bankRegistrySelect.append(option)
             }
           })
