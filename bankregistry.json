@@ -6515,6 +6515,11 @@
     "Bank": "MyBank"
   },
   {
+    "Bank identifier": "9246",
+    "BIC": "NRCANOK2XXX",
+    "Bank": "NC Bank"
+  },
+  {
     "Bank identifier": "4358",
     "BIC": "KLBUNO21",
     "Bank": "Nidaros Sparebank"
